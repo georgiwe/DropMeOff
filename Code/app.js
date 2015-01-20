@@ -16,6 +16,9 @@ data.connectToDb('mongodb://localhost/dropMeOffDb');
 
 var app = express();
 
+// set static folder
+app.use(express.static(path.join(__dirname, 'public/app')));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'server/views'));
 app.set('view engine', 'jade');
@@ -49,9 +52,6 @@ passport.deserializeUser(function (id, done) {
     password: 'deserUserPass'
   };
 });
-
-// set static folder
-app.use(express.static(path.join(__dirname, 'public')));
 
 // create and register API routes
 require('./server/routes/api')(app, data);
