@@ -1,8 +1,8 @@
 module.exports = function (data) {
-	var baseApiUrl = '/api/';
+  var baseApiUrl = '/api/';
 
-	return [{
-		router: require('./routers/users')(data),
-		route: baseApiUrl + 'users'
-	}];
+  return [{
+    router: require('./routers/users')(data),
+    route: baseApiUrl + 'users'
+ }];
 }

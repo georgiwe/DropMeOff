@@ -24,22 +24,30 @@ app.set('view engine', 'jade');
 app.use(favicon(__dirname + './public/images/car.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 // passport configuration
 app.use(passport.initialize());
 passport.use(new passportHttp.BasicStrategy(function (username, password, done) {
-    if (username === password) {
-        done(null, { username: username, password: password });
-    } else {
-        done(null, null);
-    }
+  if (username === password) {
+    done(null, {
+      username: username,
+      password: password
+    });
+  } else {
+    done(null, null);
+  }
 }));
 passport.serializeUser(function (user, done) {
-    done(null, user.id);
+  done(null, user.id);
 });
 passport.deserializeUser(function (id, done) {
-    return { username: 'deserializedUser', password: 'deserUserPass' };
+  return {
+    username: 'deserializedUser',
+    password: 'deserUserPass'
+  };
 });
 
 // set static folder
@@ -49,30 +57,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 require('./server/routes/api')(app, data);
 
 // catch 404 and forwarding to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+app.use(function (req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+  app.use(function (err, req, res, next) {
+    res.render('error', {
+      message: err.message,
+      error: err
     });
+  });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+app.use(function (err, req, res, next) {
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
 });
 
 module.exports = app;
