@@ -8,14 +8,15 @@ module.exports = function (data) {
         .all()
         .then(function (users) {
           res.json(users);
-        }, function (err) {
+        })
+        .catch(function (err) {
           res.status(400)
             .json({
               message: messages.genericError
             });
         });
     })
-    .post('/register', function (req, res) {
+    .post('/', function (req, res) {
       var userData = req.body;
 
       if (!userData) {
@@ -31,7 +32,8 @@ module.exports = function (data) {
         .then(function (savedUser) {
           res.status(201)
             .json(savedUser);
-        }, function (err) {
+        })
+        .catch(function (err) {
           res.status(400)
             .json({
               message: messages.userNotRegistered

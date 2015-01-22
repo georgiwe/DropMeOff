@@ -8,23 +8,26 @@ var passport = require('passport');
 var passportHttp = require('passport-http');
 
 // load models
-require('./server/models');
+require('./models');
 
 // data
-var data = require('./server/data');
-data.connectToDb('mongodb://localhost/dropMeOffDb');
+var data = require('./data');
+data.connectToDb('mongodb://localhost/tripRoulette');
 
 var app = express();
 
 // set static folder
-app.use(express.static(path.join(__dirname, 'public/app')));
+app.use(express.static(path.join(__dirname, '../client')));
 
 // view engine setup
-app.set('views', path.join(__dirname, 'server/views'));
+app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'jade');
 
 // express configuration
-app.use(favicon(__dirname + './public/images/car.ico'));
+//app.use(favicon(__dirname + '../client/images/car.ico'));
+console.log(path.resolve('../client/images/car.ico'));
+app.use(favicon(path.resolve('../client/images/car.ico')));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -54,7 +57,11 @@ passport.deserializeUser(function (id, done) {
 });
 
 // create and register API routes
-require('./server/routes/api')(app, data);
+require('./routes/api')(app, data);
+
+app.get('*', function (req, res) {
+  res.redirect('/');
+});
 
 // catch 404 and forwarding to error handler
 app.use(function (req, res, next) {

@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="wrap">
+      <p class="form-title">Register</p>
+
+      <form ng-submit="submit()" name="register" class="login" novalidate>
+        <div class="row">
+          <div class="col-md-6 col-sm-6 col-lg-6">
+            <fieldset>
+              <legend>Personal Info</legend>
+
+              <input name="firstName" ng-model="newUser.firstName" required type="text" placeholder="First Name" ng-minlength="3" ng-maxLength="20" />
+              <div error-tooltip data-placement="left" data-target="firstName" ng-show="register.firstName.$dirty" ng-messages="register.firstName.$error">
+                <div ng-message="required">The first name field is required</div>
+                <div ng-message="minlength">First name must be at least 3 characters long</div>
+                <div ng-message="maxlength">First name must be no more than 20 characters long</div>
+              </div>
+
+              <input name="lastName" ng-model="newUser.lastName" required type="text" placeholder="Last Name" ng-minlength="3" ng-maxLength="20" />
+              <div error-tooltip data-placement="left" data-target="lastName" ng-show="register.lastName.$dirty" ng-messages="register.lastName.$error">
+                <div ng-message="required">The last name field is required</div>
+                <div ng-message="minlength">Last name must be at least 3 characters long</div>
+                <div ng-message="maxlength">Last name must be no more than 20 characters long</div>
+              </div>
+
+              <input name="email" ng-model="newUser.email" required type="email" placeholder="Email" />
+              <div error-tooltip data-placement="left" data-target="email" ng-show="register.email.$dirty" ng-messages="register.email.$error">
+                <div ng-message="required">The Last Name field is required</div>
+                <div ng-message="email">Please enter a valid email address</div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-lg-6">
+            <fieldset>
+              <legend>Account Info</legend>
+              
+              <input name="username" ng-model="newUser.username" required type="text" placeholder="Username" ng-minlength="4" ng-maxlength="15" />
+              <div error-tooltip data-placement="right" data-target="username" ng-show="register.username.$dirty" ng-messages="register.username.$error">
+                <div ng-message="required">The username field is required</div>
+                <div ng-message="minlength">Username must be at least 4 characters long</div>
+                <div ng-message="maxlength">Username must be no more than 15 characters long</div>
+              </div>
+
+              <input name="password" ng-model="newUser.password" required type="password" placeholder="Password" ng-minlength="6" ng-maxlength="30" />
+              <div error-tooltip data-placement="right" data-target="password" ng-show="register.password.$dirty" ng-messages="register.password.$error">
+                <div ng-message="required">The password field is required</div>
+                <div ng-message="minlength">Password must be at least 6 characters long</div>
+                <div ng-message="maxlength">Password must be no more than 30 characters long</div>
+              </div>
+              
+              <input name="confirmPassword" ng-model="newUser.confirmPassword" required type="password" placeholder="Confirm Password" validate-equals='newUser.password' />
+              <div error-tooltip data-placement="right" data-target="confirmPassword" ng-show="register.confirmPassword.$dirty" ng-messages="register.confirmPassword.$error">
+                <div ng-message="required">The confirm password field is required</div>
+                <div ng-message="equal">Passwords do not match</div>
+              </div>
+<!--              <p class="help-block" ng-show="register.confirmPassword.$dirty && register.confirmPassword.$error.equal">Passwords do not match</p>-->
+            </fieldset>
+          </div>
+        </div>
+
+
+        <!--        ng-disabled="register.$invalid"-->
+
+        <input type="submit" value="Register" class="btn btn-success btn-sm" />
+      </form>
+    </div>
+  </div>
+</div>
+<!--
+
+<script>
+  (function () {
+    console.log($('.tt'))
+    $('.tt').tooltip('show');
+  })();
+</script>-->

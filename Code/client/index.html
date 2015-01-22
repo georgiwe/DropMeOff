@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <title>Trip Roulette</title>
+
+  <link rel="stylesheet" href="styles/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/app.css">
+
+  <link rel="icon" href="images/car.ico">
+</head>
+
+<body ng-app="tripRouletteApp" ng-cloak>
+  <div class="container">
+    <div>
+      <ul class="nav nav-pills pull-right">
+        <li ui-sref-active="active"><a ui-sref="home">Home</a></li>
+        <li ui-sref-active="active"><a ui-sref="login">Login</a></li>
+        <li ui-sref-active="active"><a ui-sref="register">Register</a></li>
+      </ul>
+
+      <h3>Trip Roulette</h3>
+      <hr />
+    </div>
+
+    <div ui-view></div>
+  </div>
+  
+  <!--  Libraries-->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-messages/angular-messages.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+<!--
+  <script src="bower_components/jquery-validation/dist/jquery.validate.js"></script>
+  <script src="bower_components/jquery-validation/dist/additional-methods.js"></script>
+-->
+
+  <script src="app/app.js"></script>
+
+  <!--  Directives-->
+  <script src="app/directives/validateEqauls/validateEqauls.js"></script>
+  <script src="app/directives/errorTooltips/errorTooltip.js"></script>
+  
+  <!--  Services-->
+  <script src="app/services/User.js"></script>
+
+  <!--  Home files-->
+  <script src="app/home/HomeCtrl.js"></script>
+
+  <!--  Register files-->
+  <script src="app/register/RegisterCtrl.js"></script>
+  
+  <!--  Login Files-->
+  <script src="app/login/LoginCtrl.js"></script>
+
+</body>
+
+</html>
