@@ -24,8 +24,6 @@ app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'jade');
 
 // express configuration
-//app.use(favicon(__dirname + '../client/images/car.ico'));
-console.log(path.resolve('../client/images/car.ico'));
 app.use(favicon(path.resolve('../client/images/car.ico')));
 
 app.use(logger('dev'));

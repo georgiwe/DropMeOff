@@ -23,24 +23,24 @@
               removeTooltip(target);
             }
           });
-
-          function addTooltip(target, msg, placement) {
-            target
-              .attr('data-toggle', 'tooltip')
-              .attr('title', msg)
-              .attr('data-original-title', msg)
-              .attr('data-placement', placement)
-              .tooltip('show');
-          }
-
-          function removeTooltip(target) {
-            target
-              .removeAttr('data-toggle')
-              .removeAttr('title')
-              .removeAttr('data-original-title')
-              .tooltip('hide');
-          }
         }
       };
     });
+
+  function addTooltip(target, msg, placement) {
+    target
+      .attr('data-toggle', 'tooltip')
+      .attr('title', msg)
+      .attr('data-original-title', msg)
+      .attr('data-placement', placement)
+      .tooltip('show');
+  }
+
+  function removeTooltip(target) {
+    target
+      .removeAttr('data-toggle')
+      .removeAttr('title')
+      .removeAttr('data-original-title')
+      .tooltip('hide');
+  }
 })();

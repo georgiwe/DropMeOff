@@ -3,7 +3,7 @@
     <div class="wrap">
       <p class="form-title">Register</p>
 
-      <form ng-submit="submit()" name="register" class="login" novalidate>
+      <form ng-submit="submit()" name="register" class="form-horizontal" novalidate>
         <div class="row">
           <div class="col-md-6 col-sm-6 col-lg-6">
             <fieldset>
@@ -54,7 +54,6 @@
                 <div ng-message="required">The confirm password field is required</div>
                 <div ng-message="equal">Passwords do not match</div>
               </div>
-<!--              <p class="help-block" ng-show="register.confirmPassword.$dirty && register.confirmPassword.$error.equal">Passwords do not match</p>-->
             </fieldset>
           </div>
         </div>
@@ -67,11 +66,3 @@
     </div>
   </div>
 </div>
-<!--
-
-<script>
-  (function () {
-    console.log($('.tt'))
-    $('.tt').tooltip('show');
-  })();
-</script>-->
