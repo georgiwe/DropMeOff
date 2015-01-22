@@ -7,4 +7,3 @@ MEAN stack appplcation.
 
 
 TODO
-- make form fields with validation directives

@@ -15,6 +15,6 @@ angular.module('tripRouletteApp')
         $timeout.cancel(timer);
         timer = $timeout(function () {
           $rootScope.alert.show = false;
-        }, timeout || 2000);
+        }, timeout || 2500);
       };
   }]);

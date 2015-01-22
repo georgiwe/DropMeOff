@@ -28,7 +28,7 @@
       <hr />
     </div>
 
-    <div ui-view ng-animate="{enter: 'flipInY'}"></div>
+    <div ui-view></div>
     
     <div class="text-center alert alert-{{alert.type}} animated main-alert" ng-class="{ 'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown }">
       <strong>{{alert.title}}</strong><span>{{alert.message}}</span>
