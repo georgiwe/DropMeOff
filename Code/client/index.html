@@ -8,13 +8,15 @@
   <title>Trip Roulette</title>
 
   <link rel="stylesheet" href="styles/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/nga.all.min.css.">
   <link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="bower_components/animate.css/animate.css">
 
   <link rel="icon" href="images/car.ico">
 </head>
 
-<body ng-app="tripRouletteApp" ng-cloak>
-  <div class="container">
+<body ng-app="tripRouletteApp">
+  <div class="container" ng-cloak>
     <div>
       <ul class="nav nav-pills pull-right">
         <li ui-sref-active="active"><a ui-sref="home">Home</a></li>
@@ -26,7 +28,11 @@
       <hr />
     </div>
 
-    <div ui-view></div>
+    <div ui-view ng-animate="{enter: 'flipInY'}"></div>
+    
+    <div class="text-center alert alert-{{alert.type}} animated main-alert" ng-class="{ 'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown }">
+      <strong>{{alert.title}}</strong><span>{{alert.message}}</span>
+    </div>
   </div>
   
   <!--  Libraries-->
@@ -37,6 +43,7 @@
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="bower_components/angular-messages/angular-messages.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
+<!--  <script src="bower_components/ngAnimate-animate.css/animate.js"></script>-->
 <!--
   <script src="bower_components/jquery-validation/dist/jquery.validate.js"></script>
   <script src="bower_components/jquery-validation/dist/additional-methods.js"></script>
@@ -50,6 +57,7 @@
   
   <!--  Services-->
   <script src="app/services/User.js"></script>
+  <script src="app/services/alert.js"></script>
 
   <!--  Home files-->
   <script src="app/home/HomeCtrl.js"></script>
