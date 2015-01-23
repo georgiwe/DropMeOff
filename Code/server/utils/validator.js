@@ -22,7 +22,7 @@ function validateUserData(req, res, next) {
   req.assert('password', 'The Password must be between ' + constants.password.MIN + ' and ' + constants.password.MAX + ' characters long').len(constants.password.MIN, constants.password.MAX);
   
   // Driver validations
-  req.assert('isDriver', 'The Is Driver field is required').notEmpty();
+  req.sanitize('isDriver', 'The Is Driver field is required').toBoolean();
   if (req.body.isDriver) {
     req.assert('carModel', 'Drivers must supply a car make/model').notEmpty();
   }

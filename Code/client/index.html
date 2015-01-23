@@ -31,7 +31,7 @@
     <div ui-view></div>
     
     <div class="text-center alert alert-{{alert.type}} animated main-alert" ng-class="{ 'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown }">
-      <strong>{{alert.title}}</strong><span>{{alert.message}}</span>
+      <div><strong>{{alert.title}}</strong></div><span>{{alert.message}}</span>
     </div>
   </div>
   
@@ -43,6 +43,7 @@
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="bower_components/angular-messages/angular-messages.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/underscore/underscore-min.js"></script>
 <!--  <script src="bower_components/ngAnimate-animate.css/animate.js"></script>-->
 <!--
   <script src="bower_components/jquery-validation/dist/jquery.validate.js"></script>

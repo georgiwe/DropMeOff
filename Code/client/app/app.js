@@ -27,3 +27,5 @@ angular.module('tripRouletteApp', ['ui.router', 'ngResource', 'ngMessages', 'ngA
     //  $locationProvider.html5Mode(true);
     //  $httpProvider.interceptors.push('authInterceptor');
 }])
+
+.constant('API_URL', 'http://localhost:7777/api');

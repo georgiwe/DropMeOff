@@ -3,7 +3,7 @@
     <div class="wrap">
       <p class="form-title">Sign In</p>
       <div class="form-wrapper">
-        <form name="form" class="login">
+        <form name="form" class="login" autocomplete="off">
 
           <input name="username" ng-model="user.username" required type="text" placeholder="Username" ng-minlength="4" ng-maxlength="15" />
           <div error-tooltip data-placement="right" data-target="username" ng-show="form.username.$dirty" ng-messages="form.username.$error">

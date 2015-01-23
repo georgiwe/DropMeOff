@@ -77,12 +77,10 @@ form a {
 form a:hover {
   color: #2ecc71;
 }
-
-
 form.login input[type="submit"] {
   width: 100%;
 }
-
+/* mine */
 
 input.ng-invalid.ng-dirty {
   border-bottom: 1px solid red !important;
@@ -95,14 +93,10 @@ input.ng-invalid.ng-dirty {
   width: 400px;
   margin: 0 auto;
   position: absolute;
-  top: 150px;
-  left: 40%;
+  top: 80px;
+  left: 5px;
+  right: 5px;
 }
 .alert-hidden {
   visibility: hidden;
 }
-/*
-#is-driver-wrapper {
-  width: 75px;
-  margin: 0 auto;
-}*/

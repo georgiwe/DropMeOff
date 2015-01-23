@@ -1,12 +1,14 @@
 angular.module('tripRouletteApp')
-  .controller('RegisterCtrl', ['$scope', 'User', 'alert', '$state',
+  .controller('RegisterCtrl', ['$scope', 'User', 'alert',
     function ($scope, User, alert, $state) {
       $scope.submit = function () {
         var userData = $scope.newUser;
 
         var registeredUser = User.save(userData, function () {
-          registeredUser.email = 'email@email.email';
-          registeredUser.$save();
+          alert('success', 'Registered!', 'Welcome to trip roulette!');
+        }, function (err) {
+          var details = err.data.details ? err.data.details.join('. ') : '';
+          alert('danger', err.data.message, details, 5000);
         });
       };
       //      $scope.submit = function () {
