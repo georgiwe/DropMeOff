@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   roles = require('../../utils/roles'),
+  constants = require('../../utils/constants'),
   crypto = require('crypto');
 
 var STRING_ENCODING = 'base64';
@@ -74,6 +75,10 @@ var userSchema = new Schema({
   strict: true
 });
 
+function isBetween(val, min, max) {
+  return val >= min && val <= max;
+}
+
 // password setter
 function hashPassword(password) {
   var saltBytes = crypto.randomBytes(128);
@@ -85,7 +90,8 @@ function hashPassword(password) {
 
 function validateNameLength(value) {
   var len = value ? value.length : 0;
-  return len >= 3 && len <= 20;
+  return 
+    isBetween(len, constants.userNames.MIN_LENGTH, constants.userNames.MAX_LENGTH);
 }
 
 function saveLowercase(rawUsername) {
@@ -95,14 +101,22 @@ function saveLowercase(rawUsername) {
   return rawUsername;
 }
 
+function validateUsernameLength(value) {
+  var len = value ? value.length : 0;
+  return 
+    isBetween(len, constants.username.MIN, constants.username.MAX);
+}
+
 // validations
 userSchema.path('firstName').validate(validateNameLength, 'Invalid first name length');
 userSchema.path('lastName').validate(validateNameLength, 'Invalid last name length');
+userSchema.path('lastName').validate(validateUsernameLength, 'Invalid username length');
 
 userSchema.path('carModel').validate(function (value) {
   if (this.isDriver) {
     var len = value ? value.length : 0;
-    return len >= 3 && len <= 30;
+  return 
+    isBetween(len, constants.carModel.MIN_LENGTH, constants.carModel.MAX_LENGTH);
   }
 }, 'Invalid car model length');
 

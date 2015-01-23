@@ -1,7 +1,7 @@
-var beautify = require('../../../utils/mongoose-error-beautifier'),
+var beautify = require('../../../utils/error-beautifier'),
   messages = require('../../../utils/messages'),
   router = require('express').Router(),
-  validator = require('validator'),
+  validate = require('../../../utils/validator'),
   _ = require('underscore');
 
 module.exports = function (data) {
@@ -15,22 +15,23 @@ module.exports = function (data) {
         res.json(users);
       })
       .catch(function (err) {
-        res.status(400).json(beautify(err));
+        res.status(400)
+          .json(beautify.databaseError(err));
       });
   })
 
 
-  .post('/', function (req, res) {
+  .post('/', validate.user.data, function (req, res) {
+
+    var rawErrors = req.validationErrors();
+
+    if (rawErrors) {
+      var errors = beautify.validationError(rawErrors);
+      res.status(400).json(errors);
+      return;
+    }
 
     var userData = req.body;
-
-    if (!userData) {
-      res.status(400)
-        .json({
-          message: messages.userDataMissing
-        });
-        return;
-    }
     // TODO: validate userData !!!
 
     data.users
@@ -40,7 +41,8 @@ module.exports = function (data) {
           .json(savedUser);
       })
       .catch(function (err) {
-        res.status(400).json(beautify(err));
+        res.status(400)
+          .json(beautify.databaseError(err));
       });
   })
 
@@ -68,7 +70,8 @@ module.exports = function (data) {
         res.json(updatedUser);
       })
       .catch(function (err) {
-        res.status(400).json(beautify(err));
+        res.status(400)
+          .json(beautify.databaseError(err));
       });
   })
 

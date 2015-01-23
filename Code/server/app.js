@@ -1,11 +1,12 @@
-var express = require('express');
-var http = require('http');
-var path = require('path');
-var favicon = require('static-favicon');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var passport = require('passport');
-var passportHttp = require('passport-http');
+var express = require('express'),
+  http = require('http'),
+  path = require('path'),
+  favicon = require('static-favicon'),
+  logger = require('morgan'),
+  bodyParser = require('body-parser'),
+  passport = require('passport'),
+  passportHttp = require('passport-http'),
+  expressValidator = require('express-validator');
 
 // load models
 require('./models');
@@ -28,9 +29,10 @@ app.use(favicon(path.resolve('../client/images/car.ico')));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+//app.use(bodyParser.urlencoded({
+//  extended: true
+//}));
+app.use(expressValidator());
 
 // passport configuration
 app.use(passport.initialize());
