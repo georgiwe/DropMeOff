@@ -7,3 +7,6 @@ MEAN stack appplcation.
 
 
 TODO
+- add dynamic username availability checking
+- check what happens in chained then() success callbacks if Error occurs
+- all error status codes returned are 400 - check for better assignment techniques

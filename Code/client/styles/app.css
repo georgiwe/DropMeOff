@@ -101,3 +101,8 @@ input.ng-invalid.ng-dirty {
 .alert-hidden {
   visibility: hidden;
 }
+/*
+#is-driver-wrapper {
+  width: 75px;
+  margin: 0 auto;
+}*/
