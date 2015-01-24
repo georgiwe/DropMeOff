@@ -1,16 +1,15 @@
+var beautify = require('../../../utils/error-beautifier'),
+  messages = require('../../../utils/messages'),
+  router = require('express').Router(),
+  validate = require('../../../utils/validator'),
+  jwt = require('../../../utils/jwt'),
+  secret = process.env.SECRET,
+  modelUtils = require('../../../utils/model-utils');
+
 module.exports = function (data) {
-  var beautify = require('../../../utils/error-beautifier'),
-    messages = require('../../../utils/messages'),
-    router = require('express').Router(),
-    validate = require('../../../utils/validator'),
-    jwt = require('../../../utils/jwt'),
-    secret = process.env.SECRET,
-    modelUtils = require('../../../utils/model-utils');
 
   router
-
-    .get('/', function (req, res) {
-
+  .get('/', function (req, res) {
     data.users.all()
       .then(function (users) {
         return res.json(users);
@@ -21,13 +20,11 @@ module.exports = function (data) {
       });
   })
 
+  .post('/', validate.user.allData, function (req, res) {
+    var hadErrors = handleErrors(req.validationErrors(), res);
 
-  .post('/', validate.user.data, function (req, res) {
-    var rawErrors = req.validationErrors();
-
-    if (rawErrors) {
-      var errors = beautify.validationError(rawErrors);
-      return res.status(400).json(errors);
+    if (hadErrors) {
+      return;
     }
 
     data.users
@@ -49,7 +46,6 @@ module.exports = function (data) {
 
 
   .put('/:id', function (req, res) {
-
     var userData = modelUtils.userToSafeObj(req.body);
     userData._id = req.params.id;
 
@@ -75,8 +71,11 @@ module.exports = function (data) {
   })
 
 
-  .post('/login', function (req, res) {
-    var username = req.body.username.toLowerCase(),
+  .post('/login', validate.user.loginData, function (req, res) {
+    var hadErrors = handleErrors(req.validationErrors(), res);
+    if (hadErrors) return;
+
+    var username = req.body.username,
       password = req.body.password;
 
     data.users
@@ -119,3 +118,12 @@ module.exports = function (data) {
 
   return router;
 };
+
+function handleErrors(rawErrors, res) {
+  if (rawErrors) {
+    var errors = beautify.validationError(rawErrors);
+    res.status(400).json(errors);
+    return true;
+  }
+  return false;
+}

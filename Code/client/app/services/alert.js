@@ -1,17 +1,26 @@
 angular.module('tripRouletteApp')
   .factory('alert', ['$rootScope', '$timeout',
     function ($rootScope, $timeout) {
-      return function (type, title, message, timeout) {
-        var timer;
+      return function (type, title, messages, timeout) {
+        var message, timer;
+
+        if (Array.isArray(messages)) {
+          message = messages.join('. ');
+
+          if (!timeout) {
+            timeout = messages.length > 6 ? 6 : messages.length;
+            timeout *= 1000;
+          }
+        }
 
         $rootScope.alert = {
           hasBeenShown: true,
           show: true,
           type: type,
-          message: message,
+          message: message || messages,
           title: title
         };
-        
+
         $timeout.cancel(timer);
         timer = $timeout(function () {
           $rootScope.alert.show = false;

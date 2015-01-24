@@ -1,11 +1,13 @@
 body {
   /*    background: url('http://farm3.staticflickr.com/2832/12303719364_c25cecdc28_b.jpg') fixed;*/
+  
   background: url('http://cdn01.wallconvert.com/_media/wallpapers_1920x1200/1/2/highway-at-night-14945.jpg') fixed;
   background-size: cover;
   padding: 0;
   margin: 0;
   cursor: default;
 }
+
 .wrap {
   width: 100%;
   height: 100%;
@@ -15,6 +17,7 @@ body {
   left: 0;
   z-index: 99;
 }
+
 p.form-title {
   font-family: 'Open Sans', sans-serif;
   font-size: 20px;
@@ -25,14 +28,17 @@ p.form-title {
   text-transform: uppercase;
   letter-spacing: 4px;
 }
+
 form {
   width: 50%;
   margin: 0 auto;
 }
+
 .form-wrapper {
   width: 450px;
   margin: 0 auto;
 }
+
 form input[type="text"],
 form input[type="password"],
 form input[type="email"] {
@@ -51,6 +57,7 @@ form input[type="email"] {
   color: #FFFFFF;
   outline: 0;
 }
+
 form input[type="submit"] {
   width: 50%;
   font-size: 14px;
@@ -63,33 +70,44 @@ form input[type="submit"] {
   cursor: pointer;
   letter-spacing: 1px;
 }
+
 form input[type="submit"]:hover {
   transition: background-color 0.5s ease;
 }
+
 form label,
 form a {
   font-size: 12px;
   font-weight: 400;
   color: #FFFFFF;
 }
+
 form a {
   transition: color 0.5s ease;
 }
+
 form a:hover {
   color: #2ecc71;
 }
+
 form.login input[type="submit"] {
   width: 100%;
 }
 /* mine */
 
+#is-driver-wrapper {
+  min-height: 45px;
+}
+
 input.ng-invalid.ng-dirty {
   border-bottom: 1px solid red !important;
   color: red !important;
 }
+
 .help-block {
   color: red;
 }
+
 .main-alert {
   max-width: 500px;
   margin: 0 auto;
@@ -98,15 +116,20 @@ input.ng-invalid.ng-dirty {
   left: 5px;
   right: 5px;
 }
+
 .main-alert:hover {
   opacity: 0;
 }
+
 .alert-hidden {
   visibility: hidden;
 }
+
 #ui-view-container {
   position: relative;
 }
+/*View animation*/
+
 [ui-view].ng-enter,
 [ui-view].ng-leave {
   position: absolute;
@@ -117,6 +140,7 @@ input.ng-invalid.ng-dirty {
   -o-transition: all .25s ease-in-out;
   transition: all .25s ease-in-out;
 }
+
 [ui-view].ng-enter {
   opacity: 0;
   -webkit-transform: scale3d(0.96, 0.96, 0.96);
@@ -124,18 +148,21 @@ input.ng-invalid.ng-dirty {
   -o-transform: scale3d(0.96, 0.96, 0.96);
   transform: scale3d(0.96, 0.96, 0.96);
 }
+
 [ui-view].ng-enter-active {
   opacity: 1;
   -webkit-transform: scale3d(1, 1, 1);
   -moz-transform: scale3d(1, 1, 1);
   transform: scale3d(1, 1, 1);
 }
+
 [ui-view].ng-leave {
   opacity: 1;
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
+
 [ui-view].ng-leave-active {
   opacity: 0;
 }

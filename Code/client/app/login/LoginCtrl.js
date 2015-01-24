@@ -7,7 +7,7 @@ angular.module('tripRouletteApp')
           alert('success', 'Logged In', 'You have logged in successfully');
           $state.go('home');
         }, function (err) {
-          alert('danger', err.data.message, err.data.details.join('. '));
+          alert('danger', err.data.message, err.data.details);
         });
       }
   }]);
