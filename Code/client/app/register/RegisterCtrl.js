@@ -1,19 +1,17 @@
 angular.module('tripRouletteApp')
-  .controller('RegisterCtrl', ['$scope', 'User', 'alert',
-    function ($scope, User, alert, $state) {
+  .controller('RegisterCtrl', ['$scope', 'User', 'alert', '$state', 'tokenService',
+    function ($scope, User, alert, $state, tokenService) {
       $scope.submit = function () {
         var userData = $scope.newUser;
 
-        var registeredUser = User.save(userData, function () {
+        User.save(userData, function (response) {
           alert('success', 'Registered!', 'Welcome to trip roulette!');
+          tokenService.setToken(response.token);
+          $state.go('home');
         }, function (err) {
           var details = err.data.details ? err.data.details.join('. ') : '';
-          alert('danger', err.data.message, details, 5000);
+          var seconds = err.data.details.length > 6 ? 6 : err.data.details.length;
+          alert('danger', err.data.message, details, seconds * 1000);
         });
       };
-      //      $scope.submit = function () {
-      //        alert('success', 'Good!', '<ul><li>one thing<li><li>another thing<li></ul>');
-      //
-      //        $state.go('home');
-      //      };
 }]);

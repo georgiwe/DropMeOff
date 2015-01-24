@@ -3,7 +3,7 @@
     <div class="wrap">
       <p class="form-title">Sign In</p>
       <div class="form-wrapper">
-        <form name="form" class="login" autocomplete="off">
+        <form ng-submit="submit()" name="form" class="login" novalidate autocomplete="off">
 
           <input name="username" ng-model="user.username" required type="text" placeholder="Username" ng-minlength="4" ng-maxlength="15" />
           <div error-tooltip data-placement="right" data-target="username" ng-show="form.username.$dirty" ng-messages="form.username.$error">
@@ -19,7 +19,7 @@
             <div ng-message="maxlength">Password must be no more than 30 characters long</div>
           </div>
 
-          <input ng-disabled="form.$invalid" type="submit" value="Log In" class="btn btn-success btn-sm" />
+          <input type="submit" value="Log In" class="btn btn-success btn-sm" />
         </form>
       </div>
     </div>

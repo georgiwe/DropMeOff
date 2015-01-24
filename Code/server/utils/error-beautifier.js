@@ -3,7 +3,8 @@ var messages = require('./messages'),
 
 module.exports = {
   databaseError: beautifyDatabaseErrors,
-  validationError: beautifyValidationErrors
+  validationError: beautifyValidationErrors,
+  customError: beautifyCustomError
 };
 
 function beautifyDatabaseErrors(err) {
@@ -14,10 +15,8 @@ function beautifyDatabaseErrors(err) {
   };
 
   if (err.name === 'MongoError') {
-    
-    errorsData.message = (err.code === 11000)
-      ? messages.duplicate
-      : messages.genericError;
+
+    errorsData.message = (err.code === 11000) ? messages.duplicate : messages.genericError;
 
     return errorsData;
   }
@@ -41,4 +40,14 @@ function beautifyValidationErrors(rawErrors) {
   });
 
   return errorsData;
+}
+
+function beautifyCustomError(err) {
+  if (Object.keys(err).length === 1) {
+    return err;
+  } else {
+    return {
+      message: messages.genericError
+    };
+  }
 }

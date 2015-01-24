@@ -7,6 +7,7 @@ MEAN stack appplcation.
 
 
 TODO
+- refactor controllers - move to another folder, move some activities into service/services
 - refactor constants and encryption from user model
 - add dynamic username availability checking
 - check what happens in chained then() success callbacks if Error occurs

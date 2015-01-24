@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
-var Promise = require('bluebird');
-var _ = require('underscore');
+var mongoose = require('mongoose'),
+  User = mongoose.model('User'),
+  Promise = require('bluebird'),
+  messages = require('../../utils/messages'),
+  _ = require('underscore');
 
 function findById(id) {
   var promise = new Promise(function (resolve, reject) {
@@ -12,10 +13,6 @@ function findById(id) {
   });
 
   return promise;
-}
-
-function delById(id) {
-
 }
 
 function all() {
@@ -48,11 +45,11 @@ function update(userData) {
 
       if (!user) {
         reject({
-          message: 'User not found'
+          message: messages.userNotFound
         });
         return;
       }
-      
+
       _.extend(user, userData);
 
       user.save(function (err, savedUser) {
@@ -65,6 +62,37 @@ function update(userData) {
   return promise;
 }
 
+function findByUsername(username, auth) {
+  var promise = new Promise(function (resolve, reject) {
+    var query = User.findOne({
+      usernameLowercase: username
+    });
+
+    if (auth) {
+      query.select('+password +salt');
+    }
+
+    query.exec(function (err, user) {
+      if (err) reject(err);
+
+      if (!user) {
+        reject({
+          message: messages.userNotFound
+        });
+        return;
+      }
+
+      resolve(user);
+    });
+  });
+
+  return promise;
+}
+
+function delById(id) {
+
+}
+
 module.exports = {
   repoName: 'users',
   dataAccess: {
@@ -72,6 +100,7 @@ module.exports = {
     findById: findById,
     all: all,
     deleteById: delById,
-    update: update
+    update: update,
+    findByUsername: findByUsername
   }
 };

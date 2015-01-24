@@ -3,5 +3,7 @@ module.exports = {
   userNotRegistered: 'User could not be registered',
   userDataMissing: 'Please specify user data',
   duplicate: 'You are attempting to create a duplicate',
-  missingCarModel: 'Drivers must supply car make/model'
+  missingCarModel: 'Drivers must supply car make/model',
+  userNotFound: 'User not found',
+  wrongLoginCredentials: 'Wrong password or username'
 };

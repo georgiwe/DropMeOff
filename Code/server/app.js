@@ -8,30 +8,30 @@ var express = require('express'),
   passportHttp = require('passport-http'),
   expressValidator = require('express-validator');
 
-// load models
-require('./models');
+process.env.SECRET = process.env.SECRET || 'insecure world';
 
 // data
+require('./models');
 var data = require('./data');
 data.connectToDb('mongodb://localhost/tripRoulette');
 
 var app = express();
-
-// set static folder
 app.use(express.static(path.join(__dirname, '../client')));
-
-// view engine setup
-app.set('views', path.join(__dirname, './views'));
-app.set('view engine', 'jade');
 
 // express configuration
 app.use(favicon(path.resolve('../client/images/car.ico')));
 
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  next();
+});
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({
-//  extended: true
-//}));
+
 app.use(expressValidator());
 
 // passport configuration
@@ -70,27 +70,9 @@ app.use(function (req, res, next) {
   next(err);
 });
 
-//// development error handler
-//// will print stacktrace
-//if (app.get('env') === 'development') {
-//  app.use(function (err, req, res, next) {
-//    res.render('error', {
-//      message: err.message,
-//      error: err
-//    });
-//  });
-//}
-
-// production error handler
-// no stacktraces leaked to user
 app.use(function (err, req, res, next) {
-//  res.render('error', {
-//    message: err.message,
-//    error: {}
-//  });
-  
   res.status(err.status || 500).json({
-    message: 'Resource not found'
+    message: 'Internal Server Error'
   });
 });
 

@@ -1,7 +1,10 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   roles = require('../../utils/roles'),
+  modelUtils = require('../../utils/model-utils'),
+  _ = require('underscore'),
   constants = require('../../utils/constants'),
+  bcrypt = require('bcrypt-nodejs'),
   crypto = require('crypto');
 
 var STRING_ENCODING = 'base64';
@@ -81,17 +84,14 @@ function isBetween(val, min, max) {
 
 // password setter
 function hashPassword(password) {
-  var saltBytes = crypto.randomBytes(128);
-  var hashedPasswordBytes = crypto.pbkdf2Sync(password, saltBytes, ITERATIONS, BYTE_LENGTH);
-
-  this.salt = saltBytes.toString(STRING_ENCODING);
-  return hashedPasswordBytes.toString(STRING_ENCODING);
+  var salt = bcrypt.genSaltSync();
+  this.salt = salt;
+  return bcrypt.hashSync(password, salt);
 }
 
 function validateNameLength(value) {
   var len = value ? value.length : 0;
-  return 
-    isBetween(len, constants.userNames.MIN_LENGTH, constants.userNames.MAX_LENGTH);
+  return isBetween(len, constants.userNames.MIN_LENGTH, constants.userNames.MAX_LENGTH);
 }
 
 function saveLowercase(rawUsername) {
@@ -103,20 +103,18 @@ function saveLowercase(rawUsername) {
 
 function validateUsernameLength(value) {
   var len = value ? value.length : 0;
-  return 
-    isBetween(len, constants.username.MIN, constants.username.MAX);
+  return isBetween(len, constants.username.MIN, constants.username.MAX);
 }
 
 // validations
 userSchema.path('firstName').validate(validateNameLength, 'Invalid first name length');
 userSchema.path('lastName').validate(validateNameLength, 'Invalid last name length');
-userSchema.path('lastName').validate(validateUsernameLength, 'Invalid username length');
+userSchema.path('username').validate(validateUsernameLength, 'Invalid username length');
 
 userSchema.path('carModel').validate(function (value) {
   if (this.isDriver) {
     var len = value ? value.length : 0;
-  return 
-    isBetween(len, constants.carModel.MIN_LENGTH, constants.carModel.MAX_LENGTH);
+    return isBetween(len, constants.carModel.MIN_LENGTH, constants.carModel.MAX_LENGTH);
   }
 }, 'Invalid car model length');
 
@@ -127,5 +125,14 @@ userSchema.path('carModel').validate(function (value) {
 
   return true;
 }, 'Non-drivers can not have cars');
+
+// methods
+userSchema.methods.toSafeObj = function () {
+  return modelUtils.userToSafeObj(this);
+}
+
+userSchema.methods.passMatches = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
 
 mongoose.model('User', userSchema);
