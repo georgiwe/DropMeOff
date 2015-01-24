@@ -1,43 +1,44 @@
-var crypto = require('crypto');
+var crypto = require('crypto'),
+  jwtSimple = require('jwt-simple');
 
 module.exports = {
-  encode: encode,
-  createToken: createToken
+  encode: jwtSimple.encode,
+  getToken: getToken
 };
 
-function encode(payload, secret) {
-  var algorithm = 'HS256';
+//function encode(payload, secret) {
+//  var algorithm = 'HS256';
+//
+//  var headerStr = JSON.stringify({
+//    typ: 'JWT',
+//    algorithm: algorithm
+//  });
+//
+//  var payloadStr = JSON.stringify(payload);
+//
+//  var jwt = base64Encode(headerStr) + '.' + base64Encode(payloadStr);
+//  jwt += '.' + sign(jwt, secret);
+//
+//  return jwt;
+//}
+//
+//function base64Encode(str) {
+//  return new Buffer(str).toString('base64');
+//}
+//
+//function sign(str, key) {
+//  var signed = crypto.createHmac('sha256', key)
+//    .update(str)
+//    .digest('base64');
+//  return signed;
+//}
 
-  var headerStr = JSON.stringify({
-    typ: 'JWT',
-    algorithm: algorithm
-  });
-
-  var payloadStr = JSON.stringify(payload);
-
-  var jwt = base64Encode(headerStr) + '.' + base64Encode(payloadStr);
-  jwt += '.' + sign(jwt, secret);
-
-  return jwt;
-}
-
-function base64Encode(str) {
-  return new Buffer(str).toString('base64');
-}
-
-function sign(str, key) {
-  var signed = crypto.createHmac('sha256', key)
-    .update(str)
-    .digest('base64');
-  return signed;
-}
-
-function createToken(req, data, secret) {
+function getToken(issuer, data, secret) {
   var payload = {
-    iss: req.hostname,
+    iss: issuer,
     sub: data
   };
 
-  var token = encode(payload, secret);
+  var token = jwtSimple.encode(payload, secret);
   return token;
 }

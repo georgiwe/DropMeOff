@@ -127,7 +127,8 @@ userSchema.path('carModel').validate(function (value) {
 }, 'Non-drivers can not have cars');
 
 // methods
-userSchema.methods.toSafeObj = function () {
+userSchema.methods.toOutObj = function () {
+  console.log('user.toSafeObj called');
   return modelUtils.userToSafeObj(this);
 }
 

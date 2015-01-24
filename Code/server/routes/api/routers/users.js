@@ -33,7 +33,7 @@ module.exports = function (data) {
     data.users
       .save(req.body)
       .then(function (savedUser) {
-        var token = jwt.createToken(req, savedUser.toSafeObj(), secret);
+        var token = jwt.getToken(req.hostname, savedUser.toOutObj(), secret);
 
         return res.status(201)
           .json({
@@ -84,13 +84,13 @@ module.exports = function (data) {
       .then(function (user) {
 
         if (!user.passMatches(password)) {
-          return res.status(400)
+          return res.status(401)
             .json({
               message: messages.wrongLoginCredentials
             });
         }
 
-        var token = jwt.createToken(req, user.toObject(), secret);
+        var token = jwt.getToken(req.hostname, user.toOutObj(), secret);
 
         return res.json({
           token: token
