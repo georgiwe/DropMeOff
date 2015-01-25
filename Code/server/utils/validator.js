@@ -26,6 +26,7 @@ function validateEmail(req) {
 
 function validatePassword(req) {
   // Password
+  req.assert('password', 'The Password field is required').notEmpty();
   req.assert('password', 'The Password must be between ' + constants.password.MIN + ' and ' + constants.password.MAX + ' characters long').len(constants.password.MIN, constants.password.MAX);
 }
 
@@ -40,7 +41,8 @@ function validateDriverData(req) {
 module.exports = {
   user: {
     allData: validateAllUserData,
-    loginData: validateLoginData
+    loginData: validateLoginData,
+    updateData: validateUserUpdateData
   }
 };
 
@@ -49,6 +51,16 @@ function validateAllUserData(req, res, next) {
   validateLastName(req);
   validateEmail(req);
   validateUsername(req);
+  validatePassword(req);
+  validateDriverData(req);
+
+  next();
+}
+
+function validateUserUpdateData(req, res, next) {
+  validateFirstName(req);
+  validateLastName(req);
+  validateEmail(req);
   validatePassword(req);
   validateDriverData(req);
 

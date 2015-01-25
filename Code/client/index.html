@@ -17,15 +17,15 @@
 
 <body ng-app="tripRouletteApp">
   <div class="container" ng-cloak>
-    
-    <div ng-include="'/app/header/header.html'"></div>
 
     <div class="row">
+      <div ng-include="'/app/header/header.html'"></div>
+
       <div id="ui-view-container">
         <div ui-view></div>
       </div>
     </div>
-    
+
     <div class="text-center alert alert-{{alert.type}} animated main-alert" ng-class="{ 'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown }">
       <div><strong>{{alert.title}}</strong>
       </div><span>{{alert.message}}</span>
@@ -66,10 +66,10 @@
 
   <!--  Login Files-->
   <script src="app/login/LoginCtrl.js"></script>
-  
+
   <!--  Logout Files-->
   <script src="app/logout/LogoutCtrl.js"></script>
-  
+
   <!--  Header files-->
   <script src="app/header/HeaderCtrl.js"></script>
 

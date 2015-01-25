@@ -7,6 +7,8 @@ MEAN stack appplcation.
 
 
 TODO
+- add validations for user first/last name - only letters and dashes, maybe only one word
+- add client alert service minimum timeout
 - refactor controllers - move to another folder, move some activities into service/services
 - refactor constants and encryption from user model
 - add dynamic username availability checking
