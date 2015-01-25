@@ -17,12 +17,14 @@ var userSchema = new Schema({
     required: true,
     require: 'First Name is required',
     trim: true,
+    set: setTitleCase
   },
   lastName: {
     type: String,
     required: true,
     require: 'Last Name is required',
     trim: true,
+    set: setTitleCase
   },
   email: {
     type: String,
@@ -106,6 +108,10 @@ function validateUsernameLength(value) {
   return isBetween(len, constants.username.MIN, constants.username.MAX);
 }
 
+function setTitleCase(name) {
+  return name.toTitleCase();
+}
+
 // validations
 userSchema.path('firstName').validate(validateNameLength, 'Invalid first name length');
 userSchema.path('lastName').validate(validateNameLength, 'Invalid last name length');
@@ -128,8 +134,8 @@ userSchema.path('carModel').validate(function (value) {
 
 // methods
 userSchema.methods.toOutObj = function () {
-  console.log('user.toSafeObj called');
-  return modelUtils.userToSafeObj(this);
+  console.log('user.toOutObj called');
+  return modelUtils.userToSafeInObj(this.toObject());
 }
 
 userSchema.methods.passMatches = function (password) {

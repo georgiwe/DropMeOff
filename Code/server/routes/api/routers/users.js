@@ -9,16 +9,16 @@ var beautify = require('../../../utils/error-beautifier'),
 module.exports = function (data) {
 
   router
-  .get('/', function (req, res) {
-    data.users.all()
-      .then(function (users) {
-        return res.json(users);
-      })
-      .catch(function (err) {
-        return res.status(400)
-          .json(beautify.databaseError(err));
-      });
-  })
+    .get('/', function (req, res) {
+      data.users.all()
+        .then(function (users) {
+          return res.json(users);
+        })
+        .catch(function (err) {
+          return res.status(400)
+            .json(beautify.databaseError(err));
+        });
+    })
 
   .post('/', validate.user.allData, function (req, res) {
     var hadErrors = handleErrors(req.validationErrors(), res);
@@ -27,14 +27,21 @@ module.exports = function (data) {
       return;
     }
 
+    var cleanUser = modelUtils.userToSafeInObj(req.body);
+    cleanUser.password = req.body.password;
+    cleanUser.username = req.body.username;
+
     data.users
-      .save(req.body)
+      .save(cleanUser)
       .then(function (savedUser) {
-        var token = jwt.getToken(req.hostname, savedUser.toOutObj(), secret);
+        var safeUser = savedUser.toOutObj();
+        safeUser.username = savedUser.username;
+      
+        var token = jwt.getToken(req.hostname, safeUser, secret);
 
         return res.status(201)
           .json({
-            user: savedUser,
+            user: safeUser,
             token: token
           });
       })
@@ -46,8 +53,14 @@ module.exports = function (data) {
 
 
   .put('/:id', function (req, res) {
-    var userData = modelUtils.userToSafeObj(req.body);
-    userData._id = req.params.id;
+    if (!req.params.id) {
+      return res.status(404).json({
+        message: messages.userNotFound
+      });
+    }
+    
+    var userData = modelUtils.userToSafeInObj(req.body);
+    userData.id = req.params.id;
 
     if (userData.isDriver) {
       if (!userData.carModel) {
@@ -100,10 +113,6 @@ module.exports = function (data) {
           .json(beautify.customError(err));
       });
   })
-
-
-
-
 
 
   // NOT IMPLEMENTED

@@ -1,9 +1,9 @@
 var _ = require('underscore');
 
 module.exports = {
-  userToSafeObj: userToSafeObj
+  userToSafeInObj: userToSafeInObj,
 };
 
-function userToSafeObj(user) {
+function userToSafeInObj(user) {
   return _.omit(user, 'password', 'username', 'usernameLowercase', 'salt', 'role');
 }

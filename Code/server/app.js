@@ -5,10 +5,11 @@ var express = require('express'),
   logger = require('morgan'),
   bodyParser = require('body-parser'),
   passport = require('passport'),
-  passportHttp = require('passport-http'),
+  LocalStrategy = require('passport-local').Strategy,
   expressValidator = require('express-validator');
 
 process.env.SECRET = process.env.SECRET || 'insecure world';
+require('./utils/extensions');
 
 // data
 require('./models');
@@ -65,14 +66,14 @@ app.get('*', function (req, res) {
 
 // catch 404 and forwarding to error handler
 app.use(function (req, res, next) {
-  var err = new Error('Not Found');
+  var err = new Error('Resource Not Found');
   err.status = 404;
   next(err);
 });
 
 app.use(function (err, req, res, next) {
   res.status(err.status || 500).json({
-    message: 'Internal Server Error'
+    message: err.message || 'Internal Server Error'
   });
 });
 

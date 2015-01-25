@@ -40,7 +40,7 @@ function save(userData) {
 
 function update(userData) {
   var promise = new Promise(function (resolve, reject) {
-    User.findById(userData._id, function (err, user) {
+    User.findById(userData.id, function (err, user) {
       if (err) reject(err);
 
       if (!user) {
@@ -65,7 +65,7 @@ function update(userData) {
 function findByUsername(username, auth) {
   var promise = new Promise(function (resolve, reject) {
     var query = User.findOne({
-      usernameLowercase: username
+      usernameLowercase: username.toLowerCase()
     });
 
     if (auth) {
