@@ -62,11 +62,14 @@ function update(userData) {
   return promise;
 }
 
-function findByUsername(username, auth) {
+function findByUsernameOrEmail(lookFor, auth) {
   var promise = new Promise(function (resolve, reject) {
-    var query = User.findOne({
-      usernameLowercase: username.toLowerCase()
-    });
+    var lowercase = lookFor.toLowerCase();
+    var query = User.findOne().or([{
+      usernameLowercase: lowercase
+    }, {
+      email: lowercase
+    }]);
 
     if (auth) {
       query.select('+password +salt');
@@ -74,14 +77,6 @@ function findByUsername(username, auth) {
 
     query.exec(function (err, user) {
       if (err) reject(err);
-
-      if (!user) {
-        reject({
-          message: messages.userNotFound
-        });
-        return;
-      }
-
       resolve(user);
     });
   });
@@ -101,6 +96,6 @@ module.exports = {
     all: all,
     deleteById: delById,
     update: update,
-    findByUsername: findByUsername
+    findByUsernameOrEmail: findByUsernameOrEmail
   }
 };

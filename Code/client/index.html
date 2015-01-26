@@ -27,15 +27,15 @@
     </div>
 
     <div class="text-center alert alert-{{alert.type}} animated main-alert" ng-class="{ 'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown }">
-      <div><strong>{{alert.title}}</strong>
-      </div><span>{{alert.message}}</span>
+      <div><strong ng-cloak>{{alert.title}}</strong>
+      </div><span ng-cloak>{{alert.message}}</span>
     </div>
   </div>
 
   <!--  Libraries-->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="bower_components/angular-resource/angular-resource.min.js"></script>
   <script src="bower_components/angular-messages/angular-messages.min.js"></script>
@@ -57,6 +57,8 @@
   <script src="app/services/User.js"></script>
   <script src="app/services/alert.js"></script>
   <script src="app/services/tokenService.js"></script>
+  <script src="app/services/auth.js"></script>
+  <script src="app/services/userStore.js"></script>
 
   <!--  Home files-->
   <script src="app/home/HomeCtrl.js"></script>

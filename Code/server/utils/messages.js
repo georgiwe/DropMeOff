@@ -5,6 +5,6 @@ module.exports = {
   duplicate: 'You are attempting to create a duplicate',
   missingCarModel: 'Drivers must supply car make/model',
   userNotFound: 'User not found',
-  wrongLoginCredentials: 'Wrong password or username',
+  wrongLoginCredentials: 'Wrong username or password',
   invalidUserId: 'Invalid user ID'
 };

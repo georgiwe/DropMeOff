@@ -7,10 +7,6 @@ var mongoose = require('mongoose'),
   bcrypt = require('bcrypt-nodejs'),
   crypto = require('crypto');
 
-var STRING_ENCODING = 'base64';
-var ITERATIONS = 10000;
-var BYTE_LENGTH = 128;
-
 var userSchema = new Schema({
   firstName: {
     type: String,
@@ -86,9 +82,8 @@ function isBetween(val, min, max) {
 
 // password setter
 function hashPassword(password) {
-  var salt = bcrypt.genSaltSync();
-  this.salt = salt;
-  return bcrypt.hashSync(password, salt);
+  this.salt = bcrypt.genSaltSync();
+  return bcrypt.hashSync(password, this.salt);
 }
 
 function validateNameLength(value) {
@@ -113,6 +108,7 @@ function setTitleCase(name) {
 }
 
 // validations
+
 userSchema.path('firstName').validate(validateNameLength, 'Invalid first name length');
 userSchema.path('lastName').validate(validateNameLength, 'Invalid last name length');
 userSchema.path('username').validate(validateUsernameLength, 'Invalid username length');
@@ -133,6 +129,7 @@ userSchema.path('carModel').validate(function (value) {
 }, 'Non-drivers can not have cars');
 
 // methods
+
 userSchema.methods.toOutObj = function () {
   console.log('user.toOutObj called');
   return modelUtils.userToSafeInObj(this.toObject());

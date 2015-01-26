@@ -5,11 +5,11 @@
       <div class="form-wrapper">
         <form ng-submit="submit()" name="form" class="login" novalidate autocomplete="off">
 
-          <input name="username" ng-model="user.username" required type="text" placeholder="Username" ng-minlength="4" ng-maxlength="15" />
+          <input name="username" ng-model="user.username" required type="text" placeholder="Username or Email" ng-minlength="4" ng-maxlength="30" />
           <div error-tooltip data-placement="right" data-target="username" ng-show="form.username.$dirty" ng-messages="form.username.$error">
-            <div ng-message="required">The username field is required</div>
-            <div ng-message="minlength">Username must be at least 4 characters long</div>
-            <div ng-message="maxlength">Username must be no more than 15 characters long</div>
+            <div ng-message="required">The username/email field is required</div>
+            <div ng-message="minlength">Username/email must be at least 4 characters long</div>
+            <div ng-message="maxlength">Username/email must be no more than 30 characters long</div>
           </div>
 
           <input name="password" ng-model="user.password" required type="password" placeholder="Password" ng-minlength="6" ng-maxlength="30" />

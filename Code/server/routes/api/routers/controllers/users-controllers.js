@@ -1,8 +1,17 @@
 var secret = process.env.SECRET,
-  beautify = require('../../../../utils/error-beautifier'),
-  modelUtils = require('../../../../utils/model-utils'),
-  messages = require('../../../../utils/messages'),
-  jwt = require('../../../../utils/jwt');
+  utilsRoute = '../../../../utils/',
+  beautify = require(utilsRoute + 'error-beautifier'),
+  modelUtils = require(utilsRoute + 'model-utils'),
+  messages = require(utilsRoute + 'messages'),
+  jwt = require(utilsRoute+ 'jwt');
+
+function handleErrors(rawErrors, res) {
+  if (rawErrors) {
+    var errors = beautify.validationError(rawErrors);
+    res.status(400).json(errors);
+  }
+  return !!rawErrors;
+}
 
 module.exports = function (data) {
 
@@ -51,7 +60,7 @@ module.exports = function (data) {
         message: messages.invalidUserId
       });
     }
-    
+
     var hadErrors = handleErrors(req.validationErrors(), res);
     if (hadErrors) return;
 
@@ -83,23 +92,26 @@ module.exports = function (data) {
     var hadErrors = handleErrors(req.validationErrors(), res);
     if (hadErrors) return;
 
-    var username = req.body.username,
-      password = req.body.password;
+    var username = req.body.username;
+    var password = req.body.password;
 
     data.users
-      .findByUsername(username, true)
+      .findByUsernameOrEmail(username, true)
       .then(function (user) {
 
-        if (!user.passMatches(password)) {
+        if (!user || !user.passMatches(password)) {
           return res.status(401)
             .json({
               message: messages.wrongLoginCredentials
             });
         }
 
-        var token = jwt.getToken(req.hostname, user.toOutObj(), secret);
+        var safeUser = user.toOutObj();
+        safeUser.username = user.username;
+        var token = jwt.getToken(req.hostname, safeUser, secret);
 
         return res.json({
+          user: safeUser,
           token: token
         });
       })
@@ -117,12 +129,3 @@ module.exports = function (data) {
   };
 
 };
-
-function handleErrors(rawErrors, res) {
-  if (rawErrors) {
-    var errors = beautify.validationError(rawErrors);
-    res.status(400).json(errors);
-    return true;
-  }
-  return false;
-}
