@@ -2,8 +2,7 @@ var path = require('path'),
   express = require('express'),
   logger = require('morgan'),
   bodyParser = require('body-parser'),
-  favicon = require('static-favicon'),
-  expressValidator = require('express-validator');
+  favicon = require('static-favicon');
 
 module.exports = function (app) {
   app.use(express.static(path.join(__dirname, '../../client')));
@@ -19,5 +18,4 @@ module.exports = function (app) {
 
   app.use(logger('dev'));
   app.use(bodyParser.json());
-  app.use(expressValidator());
 }

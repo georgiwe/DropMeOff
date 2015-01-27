@@ -2,7 +2,7 @@ var crypto = require('crypto'),
   jwtSimple = require('jwt-simple');
 
 module.exports = {
-  encode: jwtSimple.encode,
+  decode: jwtSimple.decode,
   getToken: getToken
 };
 
@@ -33,10 +33,10 @@ module.exports = {
 //  return signed;
 //}
 
-function getToken(issuer, data, secret) {
+function getToken(issuer, user, secret) {
   var payload = {
     iss: issuer,
-    sub: data
+    sub: user._id
   };
 
   var token = jwtSimple.encode(payload, secret);

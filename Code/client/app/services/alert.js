@@ -10,14 +10,17 @@ angular.module('tripRouletteApp')
           if (!timeout) {
             timeout = messages.length > 6 ? 6 : messages.length;
             timeout *= 1000;
+            timeout = timeout < 2000 ? 2000 : timeout;
           }
+        } else {
+          message = messages;
         }
 
         $rootScope.alert = {
           hasBeenShown: true,
           show: true,
           type: type,
-          message: message || messages,
+          message: message, // || messages,
           title: title
         };
 

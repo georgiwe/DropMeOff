@@ -1,11 +1,14 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
-  roles = require('../../utils/roles'),
   modelUtils = require('../../utils/model-utils'),
-  _ = require('underscore'),
   constants = require('../../utils/constants'),
   bcrypt = require('bcrypt-nodejs'),
-  crypto = require('crypto');
+  CAR_MODEL_MIN = constants.carModel.MIN, 
+  CAR_MODEL_MAX = constants.carModel.MAX,
+  USERNAME_MIN = constants.username.MIN,
+  USERNAME_MAX = constants.username.MAX,
+  NAMES_MIN = constants.userNames.MIN,
+  NAMES_MAX = constants.userNames.MAX;
 
 var userSchema = new Schema({
   firstName: {
@@ -50,18 +53,18 @@ var userSchema = new Schema({
     required: true,
     require: 'Password is required',
     select: false,
-    set: hashPassword
+    set: setPasswordAndSalt
   },
   salt: {
     type: String,
     requird: true,
     select: false
   },
-  role: {
-    type: String,
+  roles: {
+    type: Array,
     trim: true,
-    enum: roles.all,
-    default: 'user',
+    enum: constants.roles.all,
+    default: constants.roles.default,
     select: false
   },
   isDriver: {
@@ -70,25 +73,25 @@ var userSchema = new Schema({
   },
   carModel: {
     type: String,
+  },
+  created: {
+    type: Date,
+    default: new Date(),
+    select: false
   }
 }, {
   autoIndex: true,
   strict: true
 });
 
-function isBetween(val, min, max) {
-  return val >= min && val <= max;
-}
-
-// password setter
-function hashPassword(password) {
+function setPasswordAndSalt(password) {
   this.salt = bcrypt.genSaltSync();
   return bcrypt.hashSync(password, this.salt);
 }
 
 function validateNameLength(value) {
   var len = value ? value.length : 0;
-  return isBetween(len, constants.userNames.MIN_LENGTH, constants.userNames.MAX_LENGTH);
+  return len.isBetween(NAMES_MIN, NAMES_MAX, true); //isBetween(len, constants.userNames.MIN, constants.userNames.MIN);
 }
 
 function saveLowercase(rawUsername) {
@@ -100,7 +103,7 @@ function saveLowercase(rawUsername) {
 
 function validateUsernameLength(value) {
   var len = value ? value.length : 0;
-  return isBetween(len, constants.username.MIN, constants.username.MAX);
+  return len.isBetween(USERNAME_MIN, USERNAME_MAX, true);
 }
 
 function setTitleCase(name) {
@@ -108,7 +111,6 @@ function setTitleCase(name) {
 }
 
 // validations
-
 userSchema.path('firstName').validate(validateNameLength, 'Invalid first name length');
 userSchema.path('lastName').validate(validateNameLength, 'Invalid last name length');
 userSchema.path('username').validate(validateUsernameLength, 'Invalid username length');
@@ -116,7 +118,7 @@ userSchema.path('username').validate(validateUsernameLength, 'Invalid username l
 userSchema.path('carModel').validate(function (value) {
   if (this.isDriver) {
     var len = value ? value.length : 0;
-    return isBetween(len, constants.carModel.MIN_LENGTH, constants.carModel.MAX_LENGTH);
+    return len.isBetween(CAR_MODEL_MIN, CAR_MODEL_MAX, true); //isBetween(len, constants.carModel.MIN, constants.carModel.MIN);
   }
 }, 'Invalid car model length');
 
@@ -131,7 +133,6 @@ userSchema.path('carModel').validate(function (value) {
 // methods
 
 userSchema.methods.toOutObj = function () {
-  console.log('user.toOutObj called');
   return modelUtils.userToSafeInObj(this.toObject());
 }
 

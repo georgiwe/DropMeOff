@@ -7,10 +7,16 @@ module.exports = function (app) {
 
   // express configuration
   require('./express-config')(app);
+  
+  // validator configuration
+  require('./validator-config')(app);
 
   // passport configuration
-  require('./passport-config')(app);
+  require('./passport-config')(app, data);
 
   // create and register API routes
   require('../routes')(app, data);
+  
+  // seed test data
+  require('./seed');
 }

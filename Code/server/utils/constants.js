@@ -1,11 +1,12 @@
 module.exports = {
+  PAGE_SIZE: 10,
   userNames: {
-    MIN_LENGTH: 3,
-    MAX_LENGTH: 20
+    MIN: 3,
+    MAX: 20
   },
   carModel: {
-    MIN_LENGTH: 3,
-    MAX_LENGTH: 30
+    MIN: 3,
+    MAX: 30
   },
   username: {
     MIN: 4,
@@ -14,5 +15,14 @@ module.exports = {
   password: {
     MIN: 6,
     MAX: 30
-  }
+  },
+  roles: {
+    all: ['user', 'admin'],
+    user: 'user',
+    admin: 'admin',
+    default: ['user']
+  },
+  SEATS_MIN: 1,
+  SEATS_MAX: 5,
+  cities: ['Sofia', 'Plovdiv'] //["София", "Пловдив", "Варна", "Бургас", "Благоевград", "Велико Търново", "Видин", "Враца", "Габрово", "Добрич", "Кърджали", "Кюстендил", "Ловеч", "Монтана", "Пазарджик", "Перник", "Плевен", "Разград", "Русе", "Силистра", "Сливен", "Смолян", "Софийска", "Стара Загора", "Търговище", "Хасково", "Шумен", "Ямбол"]
 };

@@ -1,5 +1,4 @@
 angular.module('tripRouletteApp')
-  .controller('HomeCtrl', ['$scope',
-    function ($scope) {
-      $scope.username = '!!';
+  .controller('HomeCtrl', ['$scope', 'userStore', 'auth',
+    function ($scope, userStore, auth) {
 }]);

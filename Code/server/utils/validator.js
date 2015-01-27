@@ -1,21 +1,31 @@
-var constants = require('./constants');
+var constants = require('./constants'),
+  beautify = require('./error-beautifier');
 
-function validateUsername(req) {
+function validateUsername(req, usingEmailOverride) {
   // Username
   req.assert('username', 'The Username field is required').notEmpty();
-  req.assert('username', 'The Username must be between ' + constants.username.MIN + ' and ' + constants.username.MAX + ' characters long').len(constants.username.MIN, constants.username.MAX);
+  req.assert('username', 'The Username must be between ' +
+      constants.username.MIN + ' and ' +
+      constants.username.MAX + ' characters long')
+    .len(constants.username.MIN, usingEmailOverride || constants.username.MAX);
 }
 
 function validateFirstName(req) {
   // First Name
   req.assert('firstName', 'The First Name field is required').notEmpty();
-  req.assert('firstName', 'The First Name field must be between ' + constants.userNames.MAX_LENGTH + ' and ' + constants.userNames.NAMES_MAX_LENGTH + ' characters long').len(constants.userNames.MIN_LENGTH, constants.userNames.MAX_LENGTH);
+  req.assert('firstName', 'The First Name field must be between ' +
+      constants.userNames.MIN + ' and ' +
+      constants.userNames.NAMES_MIN + ' characters long')
+    .len(constants.userNames.MIN, constants.userNames.MIN);
 }
 
 function validateLastName(req) {
   // Last Name
   req.assert('firstName', 'The Last Name field is required').notEmpty();
-  req.assert('firstName', 'The Last Name field must be between ' + constants.userNames.MIN_LENGTH + ' and ' + constants.userNames.MAX_LENGTH + ' characters long').len(constants.userNames.MIN_LENGTH, constants.userNames.MAX_LENGTH);
+  req.assert('firstName', 'The Last Name field must be between ' +
+      constants.userNames.MIN + ' and ' +
+      constants.userNames.MIN + ' characters long')
+    .len(constants.userNames.MIN, constants.userNames.MIN);
 }
 
 function validateEmail(req) {
@@ -27,7 +37,10 @@ function validateEmail(req) {
 function validatePassword(req) {
   // Password
   req.assert('password', 'The Password field is required').notEmpty();
-  req.assert('password', 'The Password must be between ' + constants.password.MIN + ' and ' + constants.password.MAX + ' characters long').len(constants.password.MIN, constants.password.MAX);
+  req.assert('password', 'The Password must be between ' +
+      constants.password.MIN + ' and ' +
+      constants.password.MAX + ' characters long')
+    .len(constants.password.MIN, constants.password.MAX);
 }
 
 function validateDriverData(req) {
@@ -35,6 +48,8 @@ function validateDriverData(req) {
   req.sanitize('isDriver', 'The Is Driver field is required').toBoolean();
   if (req.body.isDriver) {
     req.assert('carModel', 'Drivers must supply a car make/model').notEmpty();
+  } else {
+    req.body.carModel = undefined;
   }
 }
 
@@ -54,7 +69,7 @@ function validateAllUserData(req, res, next) {
   validatePassword(req);
   validateDriverData(req);
 
-  next();
+  handleErrors(req, res, next);
 }
 
 function validateUserUpdateData(req, res, next) {
@@ -64,12 +79,23 @@ function validateUserUpdateData(req, res, next) {
   validatePassword(req);
   validateDriverData(req);
 
-  next();
+  handleErrors(req, res, next);
 }
 
 function validateLoginData(req, res, next) {
-  validateUsername(req);
+  validateUsername(req, 30);
   validatePassword(req);
-  
-  next();
+
+  handleErrors(req, res, next);
+}
+
+function handleErrors(req, res, next) {
+  var rawErrors = req.validationErrors();
+
+  if (rawErrors) {
+    var errors = beautify.validationError(rawErrors);
+    res.status(400).json(errors);
+  } else {
+    next();
+  }
 }

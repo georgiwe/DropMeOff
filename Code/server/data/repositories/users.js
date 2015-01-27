@@ -62,17 +62,18 @@ function update(userData) {
   return promise;
 }
 
-function findByUsernameOrEmail(lookFor, auth) {
+function findByUsernameOrEmail(identifier, auth) {
   var promise = new Promise(function (resolve, reject) {
-    var lowercase = lookFor.toLowerCase();
+    identifier = identifier.toLowerCase();
     var query = User.findOne().or([{
-      usernameLowercase: lowercase
+      usernameLowercase: identifier
     }, {
-      email: lowercase
+      email: identifier
     }]);
 
     if (auth) {
-      query.select('+password +salt');
+      // maybe add the salt too
+      query.select('+password');
     }
 
     query.exec(function (err, user) {

@@ -4,5 +4,11 @@ module.exports = function (data) {
   return [{
     router: require('./routers/users')(data),
     route: baseApiUrl + 'users'
+ }, {
+   router: require('./routers/trips')(data),
+   route: baseApiUrl + 'trips'
+ }, {
+   router: require('./routers/cities'),
+   route: baseApiUrl + 'cities'
  }];
 }

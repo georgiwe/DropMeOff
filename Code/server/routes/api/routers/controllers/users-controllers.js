@@ -3,14 +3,17 @@ var secret = process.env.SECRET,
   beautify = require(utilsRoute + 'error-beautifier'),
   modelUtils = require(utilsRoute + 'model-utils'),
   messages = require(utilsRoute + 'messages'),
-  jwt = require(utilsRoute+ 'jwt');
+  jwt = require(utilsRoute + 'jwt');
 
-function handleErrors(rawErrors, res) {
-  if (rawErrors) {
-    var errors = beautify.validationError(rawErrors);
-    res.status(400).json(errors);
-  }
-  return !!rawErrors;
+function getLoginOutputData(userData, tokenIssuer) {
+  var safeUser = userData.toOutObj();
+  safeUser.username = userData.username;
+  var token = jwt.getToken(tokenIssuer, safeUser, secret);
+
+  return {
+    user: safeUser,
+    token: token
+  };
 }
 
 module.exports = function (data) {
@@ -27,9 +30,6 @@ module.exports = function (data) {
   }
 
   function register(req, res) {
-    var hadErrors = handleErrors(req.validationErrors(), res);
-    if (hadErrors) return;
-
     var cleanUser = modelUtils.userToSafeInObj(req.body);
     cleanUser.password = req.body.password;
     cleanUser.username = req.body.username;
@@ -37,20 +37,11 @@ module.exports = function (data) {
     data.users
       .save(cleanUser)
       .then(function (savedUser) {
-        var safeUser = savedUser.toOutObj();
-        safeUser.username = savedUser.username;
-
-        var token = jwt.getToken(req.hostname, safeUser, secret);
-
-        return res.status(201)
-          .json({
-            user: safeUser,
-            token: token
-          });
+        var outputData = getLoginOutputData(savedUser, req.hostname);
+        return res.status(201).json(outputData);
       })
       .catch(function (err) {
-        return res.status(400)
-          .json(beautify.databaseError(err));
+        return res.status(400).json(beautify.databaseError(err));
       });
   }
 
@@ -61,21 +52,8 @@ module.exports = function (data) {
       });
     }
 
-    var hadErrors = handleErrors(req.validationErrors(), res);
-    if (hadErrors) return;
-
     var userData = modelUtils.userToSafeInObj(req.body);
     userData.id = req.params.id;
-
-    if (userData.isDriver) {
-      if (!userData.carModel) {
-        return res.status(400).json({
-          message: messages.missingCarModel
-        });
-      }
-    } else {
-      userData.carModel = undefined;
-    }
 
     data.users
       .update(userData)
@@ -89,43 +67,35 @@ module.exports = function (data) {
   }
 
   function login(req, res) {
-    var hadErrors = handleErrors(req.validationErrors(), res);
-    if (hadErrors) return;
+    var outputData = getLoginOutputData(req.user, req.hostname);
+    res.json(outputData);
+  }
 
-    var username = req.body.username;
-    var password = req.body.password;
+  function getById(req, res) {
+    var id = req.params.id;
+    if (!id) return res.json({
+      message: messages.invalidUserId
+    });
 
-    data.users
-      .findByUsernameOrEmail(username, true)
+    data.users.findById(id)
       .then(function (user) {
-
-        if (!user || !user.passMatches(password)) {
-          return res.status(401)
-            .json({
-              message: messages.wrongLoginCredentials
-            });
+        if (!user) {
+          res.status(400).json({
+            message: messages.userNotFound
+          });
         }
-
-        var safeUser = user.toOutObj();
-        safeUser.username = user.username;
-        var token = jwt.getToken(req.hostname, safeUser, secret);
-
-        return res.json({
-          user: safeUser,
-          token: token
-        });
+        res.json(user.toOutObj());
       })
       .catch(function (err) {
-        return res.status(400)
-          .json(beautify.customError(err));
+        res.status(500).json(beautify.databaseError(err));
       });
   }
 
   return {
-    getAll: getAll,
     register: register,
+    getById: getById,
+    getAll: getAll,
     update: update,
     login: login,
   };
-
 };

@@ -1,8 +1,10 @@
 module.exports = function (app, data) {
   require('./api')(app, data);
+  var messages = require('../utils/messages');
 
   app.get('*', function (req, res, next) {
-    if (req.path !== '/') return res.redirect(301, '/');
+    var regEep = new RegExp(/^\/api\/.*/i);
+    if (req.path !== '/' && !regEep.test(req.path)) return res.redirect(301, '/');
     next();
   });
 
@@ -14,8 +16,19 @@ module.exports = function (app, data) {
   });
 
   app.use(function (err, req, res, next) {
-    return res.status(err.status || 500).json({
-      message: 'Internal Server Error'
-    });
+    if (process.env.NODE_ENV === 'dev') console.log(err);
+    res.status(err.status || 500);
+
+    var errorObj = {
+      message: 'Internal server error'
+    };
+    
+    if (err.status == 404)
+      errorObj.message = messages.resourceNotFound;
+      
+    if (err.message == messages.invalidTokenSignature)
+      errorObj.message = err.message;
+
+    res.json(errorObj);
   });
 }

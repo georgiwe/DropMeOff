@@ -7,10 +7,11 @@ MEAN stack appplcation.
 
 
 TODO
+- extract trip filtering methods and/or remove unused
+- extract the catch() function in controllers - 3 times same two lines
 - add validations for user first/last name - only letters and dashes, maybe only one word
 - add client alert service minimum timeout
-- refactor controllers - move to another folder, move some activities into service/services
-- refactor constants and encryption from user model
+- solve 1.users and 2.trips file naming in a different way that can prioritize their creation
+- maybe move some activities into service/services
 - add dynamic username availability checking
-- check what happens in chained then() success callbacks if Error occurs
-- all error status codes returned are 400 - check for better assignment techniques
+- almost all error status codes returned are 400 - check for better assignment techniques
