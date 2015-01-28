@@ -2,17 +2,20 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User'),
   Trip = mongoose.model('Trip');
 
-if (!Trip.count() && !User.count()) {
-  mongoose.connection.collections['trips'].drop(function (err) {
-    console.log('trips dropped');
+Trip.count().exec()
+  .then(function (count) {
+    if (count) return;
 
-    mongoose.connection.collections['users'].drop(function (err) {
-      console.log('users dropped');
+    mongoose.connection.collections['trips'].drop(function (err) {
+      console.log('trips dropped');
 
-      seedUsersAndTrips();
+      mongoose.connection.collections['users'].drop(function (err) {
+        console.log('users dropped');
+
+        seedUsersAndTrips();
+      });
     });
   });
-}
 
 function seedUsersAndTrips() {
   var driver = {
@@ -23,6 +26,7 @@ function seedUsersAndTrips() {
     "password": "qweqwe",
     "isDriver": true,
     "carModel": "Toyboata",
+    "interestCities": ['sOfIA', 'PLoVDiv'],
     "roles": ['user', 'admin']
   };
   var driverModel = new User(driver);
@@ -36,6 +40,7 @@ function seedUsersAndTrips() {
     "lastName": "clarkson",
     "email": "email@email.email",
     "username": "asdASd",
+    "interestCities": ['sOfIA', 'PLoVDiv'],
     "password": "asdasd",
     "isDriver": false
   };
@@ -46,13 +51,17 @@ function seedUsersAndTrips() {
   });
 
   for (var i = 0; i < 5; i += 1) {
+    var cities = ['Plovdiv', 'Sofia'];
+    var fromInd = Math.round(Math.random());
+    var days = 1 + Math.round(Math.random() * 6);
+
     var newTrip = {
-      from: 'Sofia',
-      to: 'Plovdiv',
+      from: cities.splice(fromInd, 1)[0],
+      to: cities[0],
       driver: driverModel,
-      passengers: [passengerModel],
-      departure: new Date().addHours(24 * 365),
-      freeSeats: 3
+      passengers: [passengerModel, driverModel],
+      departure: new Date().addHours(24 * days),
+      freeSeats: Math.round(Math.random() * (4 - 1)) + 1
     };
 
     var tripModel = new Trip(newTrip);

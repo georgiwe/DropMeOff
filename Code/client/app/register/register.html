@@ -11,22 +11,22 @@
 
               <input name="firstName" ng-model="newUser.firstName" required type="text" placeholder="First Name" ng-minlength="3" ng-maxLength="20" />
               <div error-tooltip data-placement="left" data-target="firstName" ng-show="register.firstName.$dirty" ng-messages="register.firstName.$error">
-                <div ng-message="required">The first name field is required</div>
-                <div ng-message="minlength">First name must be at least 3 characters long</div>
-                <div ng-message="maxlength">First name must be no more than 20 characters long</div>
+                <div ng-class="{'active': register.firstName.$dirty && register.firstName.$error.required}" ng-message="required">The first name field is required</div>
+                <div ng-class="{'active': register.firstName.$dirty && register.firstName.$error.minlength}" ng-message="minlength">First name must be at least 3 characters long</div>
+                <div ng-class="{'active': register.firstName.$dirty && register.firstName.$error.maxlength}" ng-message="maxlength">First name must be no more than 20 characters long</div>
               </div>
 
               <input name="lastName" ng-model="newUser.lastName" required type="text" placeholder="Last Name" ng-minlength="3" ng-maxLength="20" />
               <div error-tooltip data-placement="left" data-target="lastName" ng-show="register.lastName.$dirty" ng-messages="register.lastName.$error">
-                <div ng-message="required">The last name field is required</div>
-                <div ng-message="minlength">Last name must be at least 3 characters long</div>
-                <div ng-message="maxlength">Last name must be no more than 20 characters long</div>
+                <div ng-class="{'active': register.lastName.$dirty && register.lastName.$error.required}" ng-message="required"  >The last name field is required</div>
+                <div ng-class="{'active': register.lastName.$dirty && register.lastName.$error.minlength}" ng-message="minlength">Last name must be at least 3 characters long</div>
+                <div ng-class="{'active': register.lastName.$dirty && register.lastName.$error.maxlength}" ng-message="maxlength">Last name must be no more than 20 characters long</div>
               </div>
 
               <input name="email" ng-model="newUser.email" required ng-pattern="/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/i" type="email" placeholder="Email" />
               <div error-tooltip data-placement="left" data-target="email" ng-show="register.email.$dirty" ng-messages="register.email.$error">
-                <div ng-message="required">The Last Name field is required</div>
-                <div ng-message="email">Please enter a valid email address</div>
+                <div ng-class="{'active': register.email.$dirty && register.email.$error.required}" ng-message="minlength" ng-message="required">The email field is required</div>
+                <div ng-class="{'active': register.email.$dirty && register.email.$error}" ng-message="maxlength" ng-message="email">Please enter a valid email address</div>
               </div>
 
               <div class="pull-right" id="is-driver-wrapper">
@@ -43,40 +43,37 @@
 
               <input name="username" ng-model="newUser.username" required type="text" placeholder="Username" ng-minlength="4" ng-maxlength="15" />
               <div error-tooltip data-placement="right" data-target="username" ng-show="register.username.$dirty" ng-messages="register.username.$error">
-                <div ng-message="required">The username field is required</div>
-                <div ng-message="minlength">Username must be at least 4 characters long</div>
-                <div ng-message="maxlength">Username must be no more than 15 characters long</div>
+                <div ng-class="{'active': register.username.$dirty && register.username.$error.required}" ng-message="required"   ng-message="required">The username field is required</div>
+                <div ng-class="{'active': register.username.$dirty && register.username.$error.minlength}" ng-message="minlength" ng-message="minlength">Username must be at least 4 characters long</div>
+                <div ng-class="{'active': register.username.$dirty && register.username.$error.maxlength}" ng-message="maxlength" ng-message="maxlength">Username must be no more than 15 characters long</div>
               </div>
 
               <input name="password" ng-model="newUser.password" required type="password" placeholder="Password" ng-minlength="6" ng-maxlength="30" />
               <div error-tooltip data-placement="right" data-target="password" ng-show="register.password.$dirty" ng-messages="register.password.$error">
-                <div ng-message="required">The password field is required</div>
-                <div ng-message="minlength">Password must be at least 6 characters long</div>
-                <div ng-message="maxlength">Password must be no more than 30 characters long</div>
+                <div ng-class="{'active': register.password.$dirty && register.password.$error.required}" ng-message="required"   ng-message="required">The password field is required</div>
+                <div ng-class="{'active': register.password.$dirty && register.password.$error.minlength}" ng-message="minlength" ng-message="minlength">Password must be at least 6 characters long</div>
+                <div ng-class="{'active': register.password.$dirty && register.password.$error.maxlength}" ng-message="maxlength" ng-message="maxlength">Password must be no more than 30 characters long</div>
               </div>
 
               <input name="confirmPassword" ng-model="newUser.confirmPassword" required type="password" placeholder="Confirm Password" validate-equals='newUser.password' />
               <div error-tooltip data-placement="right" data-target="confirmPassword" ng-show="register.confirmPassword.$dirty" ng-messages="register.confirmPassword.$error">
-                <div ng-message="required">The confirm password field is required</div>
-                <div ng-message="equal">Passwords do not match</div>
+                <div ng-class="{'active': register.confirmPassword.$dirty && register.confirmPassword.$error.minlength}" ng-message="required">The confirm password field is required</div>
+                <div ng-class="{'active': register.confirmPassword.$dirty && register.confirmPassword.$error.equal}" ng-message="equal">Passwords do not match</div>
               </div>
 
               <div ng-show="newUser.isDriver">
                 <input name="carModel" ng-model="newUser.carModel" ng-required="newUser.isDriver" type="text" placeholder="Car Make/Model" ng-minlength="3" ng-maxlength="30" />
                 <div error-tooltip data-placement="right" data-target="carModel" ng-show="register.carModel.$dirty" ng-messages="register.carModel.$error">
-                  <div ng-message="required">You must specify car make/model</div>
-                  <div ng-message="minlength">Car make/model name must be at least 3 characters long</div>
-                  <div ng-message="maxlength">Car make/model name must be no more than 30 characters long</div>
+                  <div ng-class="{'active': register.carModel.$dirty && register.carModel.$error.required}"  ng-message="required">You must specify car make/model</div>
+                  <div ng-class="{'active': register.carModel.$dirty && register.carModel.$error.minlength}" ng-message="minlength">Car make/model name must be at least 3 characters long</div>
+                  <div ng-class="{'active': register.carModel.$dirty && register.carModel.$error.maxlength}" ng-message="maxlength">Car make/model name must be no more than 30 characters long</div>
                 </div>
               </div>
             </fieldset>
           </div>
         </div>
-        
 
-        <!--        ng-disabled="register.$invalid"-->
-
-        <input type="submit" value="Register" class="btn btn-success btn-sm" />
+        <input ng-disabled="register.$invalid" type="submit" value="Submit" class="btn btn-success btn-sm" />
       </form>
     </div>
   </div>

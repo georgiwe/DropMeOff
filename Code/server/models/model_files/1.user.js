@@ -74,6 +74,10 @@ var userSchema = new Schema({
   carModel: {
     type: String,
   },
+  interestCities: {
+    type: [String],
+    set: allToTitleCase
+  },
   created: {
     type: Date,
     default: new Date(),
@@ -83,6 +87,13 @@ var userSchema = new Schema({
   autoIndex: true,
   strict: true
 });
+
+function allToTitleCase(arr) {
+  for (var i = 0, l = arr.length; i < l; i += 1) {
+    arr[i] = arr[i].toTitleCase();
+  }
+  return arr;
+}
 
 function setPasswordAndSalt(password) {
   this.salt = bcrypt.genSaltSync();

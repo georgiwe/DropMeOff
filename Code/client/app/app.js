@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('tripRouletteApp', ['ui.router', 'ngResource', 'ngMessages', 'ngAnimate'])
+angular.module('tripRouletteApp', ['ui.router', 'ngResource', 'ui.bootstrap'])
 
 .config(['$stateProvider', '$locationProvider', '$httpProvider', '$urlRouterProvider',
   function ($stateProvider, $locationProvider, $httpProvider, $urlRouterProvider) {

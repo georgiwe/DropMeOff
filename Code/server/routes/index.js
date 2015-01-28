@@ -20,7 +20,7 @@ module.exports = function (app, data) {
     res.status(err.status || 500);
 
     var errorObj = {
-      message: 'Internal server error'
+      message: 'Whoops! Something went horribly wrong. Sorry!'
     };
     
     if (err.status == 404)

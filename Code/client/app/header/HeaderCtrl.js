@@ -1,5 +1,5 @@
 angular.module('tripRouletteApp')
-  .controller('HeaderCtrl', ['$scope', 'tokenService',
-    function ($scope, tokenService) {
-      $scope.isAuthenticated = tokenService.isAuthenticated;
+  .controller('HeaderCtrl', ['$scope', 'auth',
+    function ($scope, auth) {
+      $scope.isAuthenticated = auth.isAuthenticated;
   }]);

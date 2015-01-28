@@ -9,16 +9,20 @@
       return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-          var target = $(element)
+          element = $(element);
+          element.children().hide();
+
+          var target = element
             .parents('form')
             .find('[name=' + attrs.target + ']');
 
           target.on('input', function () {
-            if (element.children().length) {
-              var msg = element.children().first().text();
+            if (element.children('.active').length) {
+              var msgContainer = element.children('.active').first();
+              var msg = msgContainer.text();
               var placement = element.attr('data-placement') || 'top';
               addTooltip(target, msg, placement);
-              element.children().first().hide();
+              msgContainer.hide();
             } else {
               removeTooltip(target);
             }
@@ -26,6 +30,10 @@
         }
       };
     });
+
+  var tooltipOptions = {
+    trigger: 'hover focus'
+  };
 
   function addTooltip(target, msg, placement) {
     target

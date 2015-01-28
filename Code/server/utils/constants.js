@@ -1,4 +1,5 @@
 module.exports = {
+  TOKEN_EXP: 1.5,
   PAGE_SIZE: 10,
   userNames: {
     MIN: 3,

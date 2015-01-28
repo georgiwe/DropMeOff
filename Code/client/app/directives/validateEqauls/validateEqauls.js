@@ -12,10 +12,12 @@ angular.module('tripRouletteApp')
 
         ngModelCtrl.$parsers.push(isEqualTo);
         ngModelCtrl.$formatters.push(isEqualTo);
+        var count = 0;
 
         scope.$watch(attrs.validateEquals, function () {
           element.val('');
-          ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
+          if (element.parents('form').$dirty)
+            ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
         });
       }
     };

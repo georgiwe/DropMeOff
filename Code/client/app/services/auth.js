@@ -14,7 +14,10 @@ angular.module('tripRouletteApp')
         $state.go('home');
       },
       isAuthenticated: function () {
-        return tokenService.isAuthenticated
+        return tokenService.isAuthenticated();
+      },
+      getUser: function () {
+        return userStore.get();
       }
     };
 }]);

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
@@ -16,37 +15,43 @@
 </head>
 
 <body ng-app="tripRouletteApp">
-  <div class="container" ng-cloak>
+  <div id="wrapper">
+    <div class="container" ng-cloak>
 
-    <div class="row">
-      <div ng-include="'/app/header/header.html'"></div>
+      <div class="row">
+        <div ng-include="'/app/header/header.html'"></div>
 
-      <div id="ui-view-container">
-        <div ui-view></div>
+        <div id="ui-view-container">
+          <div id="view" ui-view></div>
+        </div>
       </div>
-    </div>
 
-    <div class="text-center alert alert-{{alert.type}} animated main-alert" ng-class="{ 'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown }">
-      <div><strong ng-cloak>{{alert.title}}</strong>
-      </div><span ng-cloak>{{alert.message}}</span>
+
+      <div class="text-center alert alert-{{alert.type}} animated main-alert" ng-class="{ 'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown }">
+        <div><strong>{{alert.title}}</strong>
+        </div><span>{{alert.message}}</span>
+      </div>
     </div>
   </div>
 
   <!--  Libraries-->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular/angular.min.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="bower_components/angular-resource/angular-resource.min.js"></script>
-  <script src="bower_components/angular-messages/angular-messages.min.js"></script>
-  <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+<!--  <script src="bower_components/angular-messages/angular-messages.min.js"></script>-->
+<!--  <script src="bower_components/angular-animate/angular-animate.min.js"></script>-->
   <script src="bower_components/underscore/underscore-min.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <!--  <script src="bower_components/ngAnimate-animate.css/animate.js"></script>-->
   <!--
   <script src="bower_components/jquery-validation/dist/jquery.validate.js"></script>
   <script src="bower_components/jquery-validation/dist/additional-methods.js"></script>
 -->
 
+
+  <!--  Main Module-->
   <script src="app/app.js"></script>
 
   <!--  Directives-->
@@ -75,6 +80,29 @@
 
   <!--  Header files-->
   <script src="app/header/HeaderCtrl.js"></script>
+
+  <!--  Carousel files-->
+  <script src="app/carousel/CarouselCtrl.js"></script>
+  
+  <!--  Trips files-->
+  <script src="app/trips/TripsCtrl.js"></script>
+
+  <script>
+    (function windowH() {
+      var $wrapper = $('#wrapper');
+      var $window = $(window);
+      var windowHeight;
+      $window.on('resize', resizeToFit);
+      resizeToFit();
+
+      function resizeToFit() {
+        windowHeight = $window.height();
+        $wrapper.css({
+          height: windowHeight
+        });
+      }
+    })()
+  </script>
 
 </body>
 

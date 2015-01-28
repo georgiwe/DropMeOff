@@ -12,10 +12,6 @@ Date.prototype.addHours = function (numberOfHours) {
   if (typeof numberOfHours !== 'number')
     throw new Error('Hours must be a number');
   
-  if ((+numberOfHours % 1) !== 0) {
-    throw new Error('Hours must be an integer');
-  }
-  
   this.setTime(this.getTime() + (numberOfHours * 60 * 60 * 1000));
   return this;
 };

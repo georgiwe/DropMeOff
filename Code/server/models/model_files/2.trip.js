@@ -10,18 +10,14 @@ var tripSchema = new Schema({
     required: true,
     require: 'From city is required',
     enum: constants.cities,
-    set: function (fromCity) {
-      return fromCity.toTitleCase();
-    }
+    set: setTitleCase
   },
   to: {
     type: String,
     required: true,
     require: 'To city is required',
     enum: constants.cities,
-    set: function (fromCity) {
-      return fromCity.toTitleCase();
-    }
+    set: setTitleCase
   },
   driver: {
     type: Schema.ObjectId,
@@ -53,6 +49,10 @@ var tripSchema = new Schema({
     select: false
   }
 });
+
+function setTitleCase(str) {
+  return str.toTitleCase();
+}
 
 tripSchema.path('freeSeats').validate(function (seatsCount) {
   return seatsCount >= constants.SEATS_MIN &&

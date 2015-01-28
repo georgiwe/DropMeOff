@@ -1,5 +1,5 @@
-var crypto = require('crypto'),
-  jwtSimple = require('jwt-simple');
+var jwtSimple = require('jwt-simple'),
+  constants = require('./constants');
 
 module.exports = {
   decode: jwtSimple.decode,
@@ -11,7 +11,7 @@ module.exports = {
 //
 //  var headerStr = JSON.stringify({
 //    typ: 'JWT',
-//    algorithm: algorithm
+//    alg: algorithm
 //  });
 //
 //  var payloadStr = JSON.stringify(payload);
@@ -36,9 +36,9 @@ module.exports = {
 function getToken(issuer, user, secret) {
   var payload = {
     iss: issuer,
-    sub: user._id
+    sub: user._id,
+    exp: new Date().addHours(constants.TOKEN_EXP)
   };
 
-  var token = jwtSimple.encode(payload, secret);
-  return token;
+  return jwtSimple.encode(payload, secret);
 }

@@ -7,6 +7,7 @@ MEAN stack appplcation.
 
 
 TODO
+- MOVE THE HIDEOUS REPETATIVE FORM MARKUP INTO DIRECTIVES
 - move controllers to separate folder, outside routes
 - move filter parameters validation and defaults to middleware after creating it
 - extract trip filtering methods and/or remove unused

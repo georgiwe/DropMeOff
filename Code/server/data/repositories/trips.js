@@ -103,15 +103,20 @@ function filter(options) {
   var to = options.to ? options.to.toTitleCase() : undefined;
   options.page = options.page || 1;
   options.pageSize = options.pageSize || constants.PAGE_SIZE;
+
   var promise = new Promise(function (resolve, reject) {
     var query = Trip.find();
 
     if (options.departureAfter)
       query.where('departure').gte(options.departureAfter);
-    query.where('from').equals(from);
-    query.where('to').equals(to);
-    query.where('freeSeats').gte(options.freeSeats || 0);
-    query.where('driver').equals(options.driverId);
+    if (from)
+      query.where('from').equals(from);
+    if (to)
+      query.where('to').equals(to);
+    if (options.freeSeats)
+      query.where('freeSeats').gte(options.freeSeats || 0);
+    if (options.driverId)
+      query.where('driver').equals(options.driverId);
 
     query.skip((options.page - 1) * options.pageSize).limit(options.pageSize);
     query.exec(function (err, results) {
