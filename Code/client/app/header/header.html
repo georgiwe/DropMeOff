@@ -6,12 +6,12 @@
       <a ui-sref="home">Home</a>
     </li>
     
-    <li ng-hide="isAuthenticated()" ui-sref-active="active">
-      <a ui-sref="login">Login</a>
+    <li ng-show="isAuthenticated()" ui-sref-active="active">
+      <a ui-sref="trips">Trips</a>
     </li>
     
     <li ng-hide="isAuthenticated()" ui-sref-active="active">
-      <a ui-sref="trips">Trips</a>
+      <a ui-sref="login">Login</a>
     </li>
     
     <li ng-show="isAuthenticated()"  ui-sref-active="active">

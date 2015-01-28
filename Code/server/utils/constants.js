@@ -1,4 +1,5 @@
 module.exports = {
+  TOP_DRIVERS_COUNT: 5,
   TOKEN_EXP: 1.5,
   PAGE_SIZE: 10,
   userNames: {

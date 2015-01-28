@@ -1,2 +1,5 @@
 <div ng-include="'/app/carousel/carousel.html'"></div>
-<h1 class="text-center">Welcome to Trip Roulette<span ng-show="isAuthenticated()">, {{name}}!</span></h1>
+<div class="text-center">
+  <h1 ng-hide="isAuthenticated()">Welcome to Trip Roulette!</h1>
+  <h1 ng-show="isAuthenticated()">Where to today, {{name}}?</h1>
+</div>

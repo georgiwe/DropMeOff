@@ -29,7 +29,7 @@ function getAll() {
 function save(tripData) {
   var promise = new Promise(function (resolve, reject) {
     new Trip(tripData).save(function (err, savedTrip) {
-      if (err) reject(err);
+      if (err) return reject(err);
       else resolve(savedTrip);
     });
   });

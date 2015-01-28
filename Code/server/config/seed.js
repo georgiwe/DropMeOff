@@ -65,9 +65,11 @@ function seedUsersAndTrips() {
     };
 
     var tripModel = new Trip(newTrip);
-    tripModel.save(function (err, savedTrips) {
+    tripModel.save(function (err, savedTrip) {
       if (err) throw err;
-      console.log('saved ', savedTrips);
+      console.log('saved ', savedTrip);
+      driverModel.trips.push(savedTrip);
+      driverModel.save();
     });
   }
 }

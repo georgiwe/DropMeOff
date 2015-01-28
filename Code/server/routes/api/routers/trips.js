@@ -5,7 +5,7 @@ module.exports = function (data) {
     router = require('express').Router();
 
   router
-    .get('/', trips.filter)
+    .get('/', passport.authenticate('authStrategy'), trips.filter)
     .post('/', passport.authenticate('authStrategy'), trips.create)
     .put('/:id', passport.authenticate('authStrategy'), trips.update)
     .get('/:id', passport.authenticate('authStrategy'), trips.getById)

@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
   modelUtils = require('../../utils/model-utils'),
   constants = require('../../utils/constants'),
   bcrypt = require('bcrypt-nodejs'),
-  CAR_MODEL_MIN = constants.carModel.MIN, 
+  CAR_MODEL_MIN = constants.carModel.MIN,
   CAR_MODEL_MAX = constants.carModel.MAX,
   USERNAME_MIN = constants.username.MIN,
   USERNAME_MAX = constants.username.MAX,
@@ -82,6 +82,12 @@ var userSchema = new Schema({
     type: Date,
     default: new Date(),
     select: false
+  },
+  trips: {
+    type: [{
+      type: Schema.ObjectId
+    }],
+    ref: 'Trip'
   }
 }, {
   autoIndex: true,

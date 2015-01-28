@@ -10,5 +10,8 @@ module.exports = function (data) {
  }, {
     router: require('./routers/cities'),
     route: baseApiUrl + 'cities'
+ }, {
+    router: require('./routers/stats')(data),
+    route: baseApiUrl + 'stats'
  }];
 }

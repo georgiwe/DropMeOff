@@ -30,9 +30,14 @@ module.exports = function (data) {
 
   function create(req, res) {
     var tripData = req.body; // clean this
+    var driver = req.user;
+    tripData.driver = driver.id;
 
-    data.trips.save(tripData)
+    data.trips
+      .save(tripData)
       .then(function (savedTrip) {
+        driver.trips.push(savedTrip);
+        driver.save();
         res.status(201).json(savedTrip); // clean this
       })
       .catch(function (err) {

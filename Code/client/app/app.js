@@ -24,6 +24,12 @@ angular.module('tripRouletteApp', ['ui.router', 'ngResource', 'ui.bootstrap'])
       controller: 'LogoutCtrl'
     })
 
+    .state('trips', {
+      url: '/trips',
+      templateUrl: 'app/trips/trips.html',
+      controller: 'TripsCtrl'
+    })
+
     .state('register', {
       url: '/register',
       templateUrl: 'app/register/register.html',
