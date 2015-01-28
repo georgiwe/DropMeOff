@@ -15,6 +15,7 @@ module.exports = function (data) {
       freeSeats: req.query.freeSeats,
       page: req.query.page,
       pageSize: req.query.pageSize,
+      driverId: req.query.driverId
     };
 
     data.trips.filter(options)
@@ -22,7 +23,7 @@ module.exports = function (data) {
         return res.json(trips);
       })
       .catch(function (err) {
-        return res.status(500)
+        return res.status(400)
           .json(beautify.databaseError(err));
       });
   }

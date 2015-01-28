@@ -50,30 +50,6 @@ function findByDriverId(id) {
   return promise;
 }
 
-function findAllFrom(city) {
-  var promise = new Promise(function (resolve, reject) {
-    Trip.find({
-      from: city.toTitleCase()
-    }, function (err, trips) {
-      if (err) reject(err);
-      else resolve(trips);
-    });
-  });
-  return promise;
-}
-
-function findAllTo(city) {
-  var promise = new Promise(function (resolve, reject) {
-    Trip.find({
-      to: city.toTitleCase()
-    }, function (err, trips) {
-      if (err) reject(err);
-      else resolve(trips);
-    })
-  });
-  return promise;
-}
-
 function findDepartingAfter(date) {
   var promise = new Promise(function (resolve, reject) {
     Trip
@@ -123,23 +99,21 @@ function update(tripId, tripData) {
 }
 
 function filter(options) {
-  options.from = options.from;
-  options.to = options.to;
+  var from = options.from ? options.from.toTitleCase() : undefined;
+  var to = options.to ? options.to.toTitleCase() : undefined;
   options.page = options.page || 1;
   options.pageSize = options.pageSize || constants.PAGE_SIZE;
-  options.departureAfter = options.departureAfter || new Date();
-  options.numFreeSeats = options.numFreeSeats || 0;
-
   var promise = new Promise(function (resolve, reject) {
     var query = Trip.find();
-    
-    if (options.departureAfter) query.where('departure').gte(departureAfter);
-    if (options.from) query.where('from').equals(from.toTitleCase());
-    if (options.to) query.where('to').equals(to.toTitleCase());
-    if (options.numFreeSeats) query.where('freeSeats').gte(Number(numFreeSeats));
 
-    query.skip((page - 1) * pageSize).limit(pageSize);
+    if (options.departureAfter)
+      query.where('departure').gte(options.departureAfter);
+    query.where('from').equals(from);
+    query.where('to').equals(to);
+    query.where('freeSeats').gte(options.freeSeats || 0);
+    query.where('driver').equals(options.driverId);
 
+    query.skip((options.page - 1) * options.pageSize).limit(options.pageSize);
     query.exec(function (err, results) {
       if (err) reject(err);
       else resolve(results);
@@ -155,8 +129,6 @@ module.exports = {
     findById: findById,
     save: save,
     findByDriverId: findByDriverId,
-    findAllFrom: findAllFrom,
-    findAllTo: findAllTo,
     findDepartingAfter: findDepartingAfter,
     addPassenger: addPassenger,
     update: update,
