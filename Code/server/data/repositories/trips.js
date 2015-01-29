@@ -118,9 +118,12 @@ function filter(options) {
     if (options.driverId)
       query.where('driver').equals(options.driverId);
 
-    query.skip((options.page - 1) * options.pageSize).limit(options.pageSize);
+    query
+      .skip((options.page - 1) * options.pageSize)
+      .limit(options.pageSize)
+      .populate('driver passengers');
     query.exec(function (err, results) {
-      if (err) reject(err);
+      if (err) return reject(err);
       else resolve(results);
     });
   });

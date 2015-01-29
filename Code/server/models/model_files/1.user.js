@@ -157,4 +157,11 @@ userSchema.methods.passMatches = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
+// virtuals
+
+userSchema.virtual('fullName')
+  .get(function () {
+    return this.firstName + ' ' + this.lastName;
+  });
+
 mongoose.model('User', userSchema);
