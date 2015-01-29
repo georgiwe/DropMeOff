@@ -1,0 +1,27 @@
+<h1>Create Trip</h1>
+
+<form ng-submit="submit()" name="form" novalidate class="form form-horizontal">
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <select required ng-model="trip.from" name="from" class="form-control">
+        <option ng-repeat="city in cities">{{city}}</option>
+      </select>
+
+      <select required name="to" ng-model="trip.to" class="form-control">
+        <option ng-repeat="city in cities">{{city}}</option>
+      </select>
+      <p class="input-group">
+        <input type="text" class="form-control" datepicker-popup="{{dateFormat}}" ng-model="trip.departure" init-date="initialDate" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" is-open="opened" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+      <input class="form-control" ng-model="trip.freeSeats" type="number" ng-required="true" min="1" max="5" />
+    </div>
+  </div>
+
+
+  <input class="btn btn-success" type="submit" ng-disabled="form.$invalid">
+</form>

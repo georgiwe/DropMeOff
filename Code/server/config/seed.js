@@ -1,24 +1,34 @@
 var mongoose = require('mongoose'),
-  User = mongoose.model('User'),
-  Trip = mongoose.model('Trip');
+chance = require('chance')(),
+cities = require('../utils/constants').cities,
+User = mongoose.model('User'),
+Trip = mongoose.model('Trip');
+
+var numberOfUsers = 49;
+var numberOfTrips = 100;
+
+var drivers = [];
+var passengers = [];
 
 Trip.count().exec()
-  .then(function (count) {
-    if (count) return;
+.then(function (count) {
+  if (count) return;
 
-    mongoose.connection.collections['trips'].drop(function (err) {
-      console.log('trips dropped');
+  mongoose.connection.collections['trips'].drop(function (err) {
+    console.log('no trips detected');
 
-      mongoose.connection.collections['users'].drop(function (err) {
-        console.log('users dropped');
+    mongoose.connection.collections['users'].drop(function (err) {
+      console.log('no users detected');
+      console.log('seeding...');
 
-        seedUsersAndTrips();
-      });
+      seedUsersAndTrips();
     });
   });
+});
 
 function seedUsersAndTrips() {
-  var driver = {
+
+  var me = {
     "firstName": "georgi",
     "lastName": "prodanov",
     "email": "georgiwe@gmail.com",
@@ -28,48 +38,97 @@ function seedUsersAndTrips() {
     "carModel": "Toyboata",
     "interestCities": ['sOfIA', 'PLoVDiv'],
     "roles": ['user', 'admin']
-  };
-  var driverModel = new User(driver);
-  driverModel.save(function (err, savedDriver) {
-    if (err) throw err;
-    console.log('saved driver ', savedDriver);
+  }
+  new User(me).save(function  (err, meSaved) {
+    drivers.push(meSaved);
   });
 
-  var passenger = {
-    "firstName": "jeremy",
-    "lastName": "clarkson",
-    "email": "email@email.email",
-    "username": "asdASd",
-    "interestCities": ['sOfIA', 'PLoVDiv'],
-    "password": "asdasd",
-    "isDriver": false
-  };
-  var passengerModel = new User(passenger);
-  passengerModel.save(function (err, savedPassenger) {
-    if (err) throw err;
-    console.log('saved passenger ', savedPassenger);
-  });
+  for (var i = 0; i < numberOfUsers; i++) {
+    var newUser = {
+      firstName: chance.first(),
+      lastName: chance.last(),
+      email: chance.email(),
+      username: chance.word({length: 6}),
+      password: 'qweqwe',
+      isDriver: chance.bool({likelihood: 25}),
+      interestCities: [],
+      roles: ['user']
+    };
 
-  for (var i = 0; i < 5; i += 1) {
-    var cities = ['Plovdiv', 'Sofia'];
-    var fromInd = Math.round(Math.random());
-    var days = 1 + Math.round(Math.random() * 6);
+    newUser.interestCities.push(cities[randInd()]);
+    newUser.interestCities.push(cities[randInd()]);
+
+    new User(newUser).save(function (err, savedUser) {
+      if (savedUser.isDriver) drivers.push(savedUser);
+      else passengers.push(savedUser);
+    });
+  };
+
+  var interval = setInterval(function () {
+    User.find().count(function (err, count) {
+      if (count > numberOfUsers) {
+        clearInterval(interval);
+        if (!(drivers.length > 0)) console.log('seeding failed');
+        else seedTrips();
+      }
+    });
+  }, 1500);
+}
+
+function seedTrips () {
+  for (var i = 0; i < numberOfTrips; i++) {
+    var from = cities[randInd()];
+    var to = cities[randInd()];
+
+    while (to === from) {
+      to = cities[randInd()];
+    }
 
     var newTrip = {
-      from: cities.splice(fromInd, 1)[0],
-      to: cities[0],
-      driver: driverModel,
-      passengers: [passengerModel, driverModel],
-      departure: new Date().addHours(24 * days),
+      from: from,
+      to: to,
+      driver: drivers[randInd(drivers.length)],
+      passengers: [],
+      departure: chance.date({year: 2015}).addHours(chance.integer({min: -6, max: 6})).setMonth(chance.integer({min: 2, max: 11})),
       freeSeats: Math.round(Math.random() * (4 - 1)) + 1
     };
 
-    var tripModel = new Trip(newTrip);
-    tripModel.save(function (err, savedTrip) {
-      if (err) throw err;
-      console.log('saved ', savedTrip);
-      driverModel.trips.push(savedTrip);
-      driverModel.save();
+    var rounds = chance.integer({min: 0, max: newTrip.freeSeats});
+
+    for (var j = 0; j < rounds; j++) {
+      var index = randInd(passengers.length);
+      var newPassenger = passengers[index];
+
+      if (newTrip.passengers.indexOf(newPassenger) !== -1) {
+        j--;
+        continue;
+      }
+
+      newTrip.passengers.push(newPassenger);
+    }
+
+    new Trip(newTrip).save(function (err, savedTrip) {
+      User.findOne({_id: savedTrip.driver}, function (err, theDriver) {
+        theDriver.trips.push(savedTrip);
+        theDriver.save(function (err, savedwhatever) {
+          checkForEndOfSeed();
+        });
+      });
     });
   }
+}
+
+function randInd (len) {
+  len = len || cities.length - 1;
+  return chance.integer( { min: 0, max: len - 1 } );
+}
+
+function checkForEndOfSeed () {
+  // User.count(function (err, userCount) {
+  //   Trip.count(function (tripCount) {
+  //     if (userCount === numberOfUsers + 1 && tripCount === numberOfTrips) {
+  //       console.log('seeding finished');
+  //     }
+  //   });
+  // });
 }

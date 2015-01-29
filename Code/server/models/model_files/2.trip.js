@@ -64,7 +64,7 @@ tripSchema.path('from').validate(function (fromCity) {
 }, 'From and To cities cannot be the same');
 
 tripSchema.path('driver').validate(function (driver) {
-  return driver.isDriver;
+  return driver && driver.isDriver;
 }, 'Driver must be a registered driver');
 
 tripSchema.path('departure').validate(function (date) {

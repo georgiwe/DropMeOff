@@ -37,6 +37,8 @@
     </div>
   </div>
 
+  <script src="scripts/extensions.js"></script>
+
   <!--  Libraries-->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -54,59 +56,61 @@
 -->
 
 
-  <!--  Main Module-->
-  <script src="app/app.js"></script>
+<!--  Main Module-->
+<script src="app/app.js"></script>
 
-  <!--  Directives-->
-  <script src="app/directives/validateEqauls/validateEqauls.js"></script>
-  <script src="app/directives/errorTooltips/errorTooltip.js"></script>
+<!--  Directives-->
+<script src="app/directives/validateEqauls/validateEqauls.js"></script>
+<script src="app/directives/errorTooltips/errorTooltip.js"></script>
 
-  <!--  Services-->
-  <script src="app/services/User.js"></script>
-  <script src="app/services/alert.js"></script>
-  <script src="app/services/tokenService.js"></script>
-  <script src="app/services/auth.js"></script>
-  <script src="app/services/userStore.js"></script>
-  <script src="app/services/authInterceptor.js"></script>
-  <script src="app/services/Trip.js"></script>
+<!--  Services-->
+<script src="app/services/User.js"></script>
+<script src="app/services/alert.js"></script>
+<script src="app/services/tokenService.js"></script>
+<script src="app/services/auth.js"></script>
+<script src="app/services/userStore.js"></script>
+<script src="app/services/authInterceptor.js"></script>
+<script src="app/services/Trip.js"></script>
 
-  <!--  Home files-->
-  <script src="app/home/HomeCtrl.js"></script>
+<!--  Home files-->
+<script src="app/home/HomeCtrl.js"></script>
 
-  <!--  Register files-->
-  <script src="app/register/RegisterCtrl.js"></script>
+<!--  Register files-->
+<script src="app/register/RegisterCtrl.js"></script>
 
-  <!--  Login Files-->
-  <script src="app/login/LoginCtrl.js"></script>
+<!--  Login Files-->
+<script src="app/login/LoginCtrl.js"></script>
 
-  <!--  Logout Files-->
-  <script src="app/logout/LogoutCtrl.js"></script>
+<!--  Logout Files-->
+<script src="app/logout/LogoutCtrl.js"></script>
 
-  <!--  Header files-->
-  <script src="app/header/HeaderCtrl.js"></script>
+<!--  Header files-->
+<script src="app/header/HeaderCtrl.js"></script>
 
-  <!--  Carousel files-->
-  <script src="app/carousel/CarouselCtrl.js"></script>
+<!--  Carousel files-->
+<script src="app/carousel/CarouselCtrl.js"></script>
 
-  <!--  Trips files-->
-  <script src="app/trips/TripsCtrl.js"></script>
+<!--  Trips files-->
+<script src="app/trips/TripsCtrl.js"></script>
+<script src="app/trips/create/CreateTripCtrl.js"></script>
 
-  <script>
-    (function windowH() {
-      var $wrapper = $('#wrapper');
-      var $window = $(window);
-      var windowHeight;
-      $window.on('resize', resizeToFit);
-      resizeToFit();
 
-      function resizeToFit() {
-        windowHeight = $window.height();
-        $wrapper.css({
-          height: windowHeight
-        });
-      }
-    })()
-  </script>
+<script>
+  (function () {
+    var $wrapper = $('#wrapper');
+    var $window = $(window);
+    var windowHeight;
+    $window.on('resize', resizeToFit);
+    resizeToFit();
+
+    function resizeToFit() {
+      windowHeight = $window.height();
+      $wrapper.css({
+        height: windowHeight
+      });
+    }
+  })()
+</script>
 </body>
 
 </html>

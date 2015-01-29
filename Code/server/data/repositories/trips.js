@@ -1,17 +1,17 @@
 var Trip = require('mongoose').model('Trip'),
-  constants = require('../../utils/constants'),
-  messages = require('../../utils/messages'),
-  Promise = require('bluebird'),
-  _ = require('underscore');
+constants = require('../../utils/constants'),
+messages = require('../../utils/messages'),
+Promise = require('bluebird'),
+_ = require('underscore');
 
 function findById(id) {
   var promise = new Promise(function (resolve, reject) {
     Trip.findById(id)
-      .populate('passengers driver')
-      .exec(function (err, trip) {
-        if (err) reject(err);
-        else resolve(trip);
-      });
+    .populate('passengers driver')
+    .exec(function (err, trip) {
+      if (err) reject(err);
+      else resolve(trip);
+    });
   });
   return promise;
 }
@@ -39,13 +39,13 @@ function save(tripData) {
 function findByDriverId(id) {
   var promise = new Promise(function (resolve, reject) {
     Trip
-      .find()
-      .populate('driver')
-      .where('driver.id').equals(id)
-      .exec(function (err, trips) {
-        if (err) reject(err);
-        else resolve(trips);
-      });
+    .find()
+    .populate('driver')
+    .where('driver.id').equals(id)
+    .exec(function (err, trips) {
+      if (err) reject(err);
+      else resolve(trips);
+    });
   });
   return promise;
 }
@@ -53,13 +53,13 @@ function findByDriverId(id) {
 function findDepartingAfter(date) {
   var promise = new Promise(function (resolve, reject) {
     Trip
-      .find()
-      .where('departure').gte(date)
-      .sort('departure')
-      .exec(function (err, trips) {
-        if (err) reject(err);
-        else resolve(trips);
-      });
+    .find()
+    .where('departure').gte(date)
+    .sort('departure')
+    .exec(function (err, trips) {
+      if (err) reject(err);
+      else resolve(trips);
+    });
   });
   return promise;
 }
@@ -102,13 +102,12 @@ function filter(options) {
   var from = options.from ? options.from.toTitleCase() : undefined;
   var to = options.to ? options.to.toTitleCase() : undefined;
   options.page = options.page || 1;
-  options.pageSize = options.pageSize || constants.PAGE_SIZE;
+  // options.pageSize = options.pageSize || constants.PAGE_SIZE;
 
   var promise = new Promise(function (resolve, reject) {
-    var query = Trip.find();
+    var query = Trip.find()
+    .where('departure').gte(options.departureAfter || new Date());
 
-    if (options.departureAfter)
-      query.where('departure').gte(options.departureAfter);
     if (from)
       query.where('from').equals(from);
     if (to)
@@ -119,11 +118,14 @@ function filter(options) {
       query.where('driver').equals(options.driverId);
 
     query
-      .skip((options.page - 1) * options.pageSize)
-      .limit(options.pageSize)
-      .populate('driver passengers');
+    .sort(options.sort || 'departure')
+    .skip((options.page - 1) * options.pageSize)
+    .limit(options.pageSize)
+    .populate('driver', '-trips -interestCities')
+    .populate('passengers', '_id firstName lastName username');
+
     query.exec(function (err, results) {
-      if (err) return reject(err);
+      if (err) reject(err);
       else resolve(results);
     });
   });

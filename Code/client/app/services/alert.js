@@ -27,6 +27,6 @@ angular.module('tripRouletteApp')
         $timeout.cancel(timer);
         timer = $timeout(function () {
           $rootScope.alert.show = false;
-        }, timeout || 2500);
+        }, timeout || 3500);
       };
   }]);

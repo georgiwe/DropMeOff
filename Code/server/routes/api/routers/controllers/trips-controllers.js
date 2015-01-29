@@ -11,11 +11,12 @@ module.exports = function (data) {
     var options = {
       from: req.query.from,
       to: req.query.to,
-      departureAfter: req.query.departureAfter,
+      departure: req.query.departure,
       freeSeats: req.query.freeSeats,
       page: req.query.page,
       pageSize: req.query.pageSize,
-      driverId: req.query.driverId
+      driverId: req.query.driverId,
+      sort: req.query.sort !== 'passengers' ? req.query.sort : 'passengers.length'
     };
 
     data.trips.filter(options)
@@ -41,7 +42,7 @@ module.exports = function (data) {
         res.status(201).json(savedTrip); // clean this
       })
       .catch(function (err) {
-        res.status(500).json(beautify.databaseError(err));
+        res.status(400).json(beautify.databaseError(err));
       });
   }
 
@@ -54,7 +55,7 @@ module.exports = function (data) {
         res.json(savedTrip);
       })
       .catch(function (err) {
-        res.status(500).json(beautify.databaseError(err));
+        res.status(400).json(beautify.databaseError(err));
       })
   }
 
@@ -66,7 +67,7 @@ module.exports = function (data) {
         res.json(trip);
       })
       .catch(function (err) {
-        res.status(500).json(beautify.databaseError(err));
+        res.status(400).json(beautify.databaseError(err));
       })
   }
 
@@ -79,7 +80,7 @@ module.exports = function (data) {
         return res.json(trip);
       })
       .catch(function (err) {
-        res.status(500).json(beautify.databaseError(err));
+        res.status(400).json(beautify.databaseError(err));
       })
   }
 

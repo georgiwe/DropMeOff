@@ -19,6 +19,12 @@ angular.module('tripRouletteApp', ['ui.router', 'ngResource', 'ui.bootstrap'])
       controller: 'LoginCtrl'
     })
 
+    .state('createTrip', {
+      url: '/create-trip',
+      templateUrl: 'app/trips/create/create-trip.html',
+      controller: 'CreateTripCtrl'
+    })
+
     .state('logout', {
       url: '/logout',
       controller: 'LogoutCtrl'

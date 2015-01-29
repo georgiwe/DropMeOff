@@ -1,24 +1,58 @@
-<h1>Trips</h1>
+<div class="row">
+  <div class="col-md-8 relative-ctn">
+    <h1>Trips</h1>
+
+  </div>
+  <div class="col-md-2 col-md-offset-1">
+  </div>
+</div>
 
 <div class="row">
-  <div class="col-md-6">
-    <table class="table table-hover table-striped">
-      <thead>
-        <tr>
-          <th>From</th>
-          <th>To</th>
-          <th>Departure Time</th>
-          <th>Driver</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="trip in trips">
-          <td>{{trip.from}}</td>
-          <td>{{trip.to}}</td>
-          <td>{{trip.departure | date}}</td>
-          <td>{{trip.driver.firstName + ' ' + trip.driver.lastName}}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="col-md-offset-2 col-md-8">
+    <div class="row">
+      <a id="create-trip-btn" ui-sref="createTrip" class="btn-success btn pull-right">Create Trip</a>
+    </div>
+    <div class="row">
+      <table class="table text-center table-hover table-striped">
+        <thead>
+          <tr>
+            <th class="text-center">From</th>
+            <th class="text-center">To</th>
+            <th class="text-center">Departure Time</th>
+            <th class="text-center">Driver</th>
+            <th class="text-center">Passengers</th>
+            <th class="text-center">Free seats</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-class="{'danger': evalDate(trip.departure)}" ng-repeat="trip in trips">
+            <td>{{trip.from}}</td>
+            <td>{{trip.to}}</td>
+            <td>{{trip.departure | date:'EEE dd-MMMM-yyyy HH:mm'}}</td> 
+            <td>{{trip.driver.firstName + ' ' + trip.driver.lastName}}</td>
+            <td>{{trip.passengers.length}}</td>
+            <td>{{trip.freeSeats}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <span class="label label-danger">red</span> - Departures in less than 90 minutes
+
+      <div class="pagination-wrapper pull-right">
+        <pagination style="margin: 0 auto;"
+        total-items="paging.totalItems" 
+        ng-model="paging.currPage" 
+        max-size="paging.maxSize" 
+        class="pagination-sm" 
+        rotate="paging.rotate"
+        items-per-page="paging.numPerPage"
+        boundary-links="false"
+        direction-links="true"
+        num-pages="paging.numPages">
+      </pagination>
+    </div>
   </div>
+</div>
 </div>

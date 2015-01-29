@@ -4,6 +4,7 @@ angular.module('tripRouletteApp')
 
     return {
       login: function (userData, token) {
+        if (!userData || !token) throw new Error('Invalid data');
         tokenService.setToken(token);
         userStore.store(userData);
         $state.go('home');

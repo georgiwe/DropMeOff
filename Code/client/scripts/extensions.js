@@ -1,17 +1,5 @@
 String.prototype.toTitleCase = function () {
-  if (!this) throw new Error('Null refference extension.');
-  if (!this.length) return this;
-  
-  var words = this.split(' ');
-  
-  if (words.length === 1) 
-    return this[0].toUpperCase() + this.substring(1).toLowerCase();
-
-  for (var i = 0; i < words.length; i++) {
-    words[i] = words[i].toTitleCase();
-  };
-
-  return words.join(' ');
+  return this[0].toUpperCase() + this.substring(1).toLowerCase();
 };
 
 Number.prototype.isBetween = function (min, max, inclusive) {
@@ -27,6 +15,3 @@ Date.prototype.addHours = function (numberOfHours) {
   this.setTime(this.getTime() + (numberOfHours * 60 * 60 * 1000));
   return this;
 };
-
-var str = '    something    else  ';
-var r = str.toTitleCase();
