@@ -55,8 +55,11 @@ function seedUsersAndTrips() {
       roles: ['user']
     };
 
-    newUser.interestCities.push(cities[randInd()]);
-    newUser.interestCities.push(cities[randInd()]);
+    var firstCity = cities[randInd()];
+    var secondCity = cities[randInd()];
+    while (firstCity && firstCity === secondCity) secondCity = cities[randInd()];
+    newUser.interestCities.push(firstCity);
+    newUser.interestCities.push(secondCity);
 
     new User(newUser).save(function (err, savedUser) {
       if (savedUser.isDriver) drivers.push(savedUser);
@@ -80,9 +83,7 @@ function seedTrips () {
     var from = cities[randInd()];
     var to = cities[randInd()];
 
-    while (to === from) {
-      to = cities[randInd()];
-    }
+    while (to === from) to = cities[randInd()];
 
     var newTrip = {
       from: from,

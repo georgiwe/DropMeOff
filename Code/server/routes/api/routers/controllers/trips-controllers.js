@@ -68,7 +68,7 @@ module.exports = function (data) {
       })
       .catch(function (err) {
         res.status(400).json(beautify.databaseError(err));
-      })
+      });
   }
 
   function update(req, res) {
@@ -81,7 +81,7 @@ module.exports = function (data) {
       })
       .catch(function (err) {
         res.status(400).json(beautify.databaseError(err));
-      })
+      });
   }
 
   return {
