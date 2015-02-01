@@ -15,8 +15,8 @@ function validateFirstName(req) {
   req.assert('firstName', 'The First Name field is required').notEmpty();
   req.assert('firstName', 'The First Name field must be between ' +
       constants.userNames.MIN + ' and ' +
-      constants.userNames.NAMES_MIN + ' characters long')
-    .len(constants.userNames.MIN, constants.userNames.MIN);
+      constants.userNames.MAX + ' characters long')
+    .len(constants.userNames.MIN, constants.userNames.MAX);
 }
 
 function validateLastName(req) {
@@ -24,8 +24,8 @@ function validateLastName(req) {
   req.assert('firstName', 'The Last Name field is required').notEmpty();
   req.assert('firstName', 'The Last Name field must be between ' +
       constants.userNames.MIN + ' and ' +
-      constants.userNames.MIN + ' characters long')
-    .len(constants.userNames.MIN, constants.userNames.MIN);
+      constants.userNames.MAX + ' characters long')
+    .len(constants.userNames.MIN, constants.userNames.MAX);
 }
 
 function validateEmail(req) {

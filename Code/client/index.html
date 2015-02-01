@@ -15,7 +15,7 @@
   <link rel="icon" href="images/car.ico">
 </head>
 
-<body ng-app="tripRouletteApp">
+<body ng-app="tripRouletteApp" ng-class="{'dark-highway-bg': !isAuthenticated(), 'lighter-highway-bg': isAuthenticated()}">
   <div id="wrapper">
     <div class="container" ng-cloak>
 

@@ -10,24 +10,16 @@ var numberOfTrips = 100;
 var drivers = [];
 var passengers = [];
 
-Trip.count().exec()
-.then(function (count) {
+Trip.count(function (err, count) {
   if (count) return;
-
-  mongoose.connection.collections['trips'].drop(function (err) {
-    console.log('no trips detected');
-
-    mongoose.connection.collections['users'].drop(function (err) {
-      console.log('no users detected');
-      console.log('seeding...');
-
-      seedUsersAndTrips();
-    });
+  mongoose.connection.collections['users'].drop(function (err) {
+    if (err) throw err;
+    console.log('seeding...');
+    seedUsersAndTrips();
   });
 });
 
 function seedUsersAndTrips() {
-
   var me = {
     "firstName": "georgi",
     "lastName": "prodanov",
@@ -39,6 +31,7 @@ function seedUsersAndTrips() {
     "interestCities": ['sOfIA', 'PLoVDiv'],
     "roles": ['user', 'admin']
   }
+
   new User(me).save(function  (err, meSaved) {
     drivers.push(meSaved);
   });
@@ -50,7 +43,7 @@ function seedUsersAndTrips() {
       email: chance.email(),
       username: chance.word({length: 6}),
       password: 'qweqwe',
-      isDriver: chance.bool({likelihood: 25}),
+      isDriver: chance.bool(),
       interestCities: [],
       roles: ['user']
     };
@@ -112,7 +105,7 @@ function seedTrips () {
       User.findOne({_id: savedTrip.driver}, function (err, theDriver) {
         theDriver.trips.push(savedTrip);
         theDriver.save(function (err, savedwhatever) {
-          checkForEndOfSeed();
+          // checkForEndOfSeed();
         });
       });
     });

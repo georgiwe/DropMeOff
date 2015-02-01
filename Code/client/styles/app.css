@@ -1,11 +1,21 @@
 body {
   /*    background: url('http://farm3.staticflickr.com/2832/12303719364_c25cecdc28_b.jpg') fixed;*/
   
-  background: url('/images/highway-at-night-14945.jpg') fixed;
-  background-size: cover;
   background-color: #000;
   padding: 0;
   margin: 0;
+
+  cursor: default;
+}
+
+.dark-highway-bg {
+  background: url('/images/highway-at-night-14945.jpg') fixed;
+  background-size: cover;
+}
+
+.lighter-highway-bg {
+  background: url('/images/night-highway-lights.jpg') fixed;
+  background-size: cover;
 }
 
 #wrapper {

@@ -46,4 +46,8 @@ angular.module('tripRouletteApp', ['ui.router', 'ngResource', 'ui.bootstrap'])
     $httpProvider.interceptors.push('authInterceptor');
 }])
 
-.constant('API_URL', 'http://localhost:7777/api');
+.constant('API_URL', 'http://localhost:7777/api')
+
+.run(['$rootScope', 'auth', function ($rootScope, auth) {
+  $rootScope.isAuthenticated = auth.isAuthenticated;
+}]);
