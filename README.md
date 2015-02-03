@@ -14,7 +14,6 @@ TODO
 - add validation for freeSeats in database
 - move controllers to separate folder, outside routes
 - move filter parameters validation and defaults to middleware after creating it
-- extract trip filtering methods and/or remove unused
 - extract the catch() function in controllers - 3 times same two lines
 - add validations for user first/last name - only letters and dashes, maybe only one word
 - solve 1.users and 2.trips file naming in a different way that can prioritize their creation
