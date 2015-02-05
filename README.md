@@ -9,6 +9,7 @@ MEAN stack appplcation.
 TODO
 - add validation middleware for all the Trips endpoints
 - make casting invalid objids error messages friendly
+- add "random trip from/to..." and "first trip to..." or some other *fun* random nonsense
 - add mandatory phone number for drivers
 - think how to reduce the passed around data - what to populate and what to select
 - add validation for freeSeats in database
