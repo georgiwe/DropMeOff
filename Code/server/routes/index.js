@@ -4,7 +4,9 @@ module.exports = function (app, data) {
 
   app.get('*', function (req, res, next) {
     var regEep = new RegExp(/^\/api\/.*/i);
-    if (req.path !== '/' && !regEep.test(req.path)) return res.redirect(301, '/');
+    if (req.path !== '/' && !regEep.test(req.path))
+      return res.redirect(301, '/');
+    
     next();
   });
 

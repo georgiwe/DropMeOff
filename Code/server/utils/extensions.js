@@ -1,5 +1,5 @@
 String.prototype.toTitleCase = function () {
-  if (!this) throw new Error('Null refference extension.');
+  if (!this) throw new Error('Null refference exception.');
   if (!this.length) return this;
   
   var words = this.split(' ');
@@ -9,7 +9,7 @@ String.prototype.toTitleCase = function () {
 
   for (var i = 0; i < words.length; i++) {
     words[i] = words[i].toTitleCase();
-  };
+  }
 
   return words.join(' ');
 };
@@ -27,6 +27,3 @@ Date.prototype.addHours = function (numberOfHours) {
   this.setTime(this.getTime() + (numberOfHours * 60 * 60 * 1000));
   return this;
 };
-
-var str = '    something    else  ';
-var r = str.toTitleCase();

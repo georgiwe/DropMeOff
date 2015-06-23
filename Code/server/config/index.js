@@ -19,4 +19,4 @@ module.exports = function (app) {
   
   // seed test data
   require('./seed');
-}
+};

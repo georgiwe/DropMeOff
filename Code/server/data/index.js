@@ -10,7 +10,7 @@ var data = {};
 for (var i = 0, len = fileNames.length; i < len; i += 1) {
   var repo = require(reposPath + fileNames[i]);
   data[repo.repoName] = repo.dataAccess;
-};
+}
 
 data.connectToDb = function (connStr) {
   mongoose.connect(connStr);
