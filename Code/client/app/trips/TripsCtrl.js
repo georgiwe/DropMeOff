@@ -25,6 +25,6 @@ angular.module('tripRouletteApp')
   });
 
   $scope.evalDate = function (dateStr) {
-    return new Date().addHours(1) > new Date(dateStr);
+    return (new Date()).addHours(1.5) >= new Date(dateStr);
   }
 }]);

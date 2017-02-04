@@ -13,7 +13,6 @@ module.exports = function (app, data) {
   });
 
   var loginStrategy = new LocalStrategy(function (username, password, done) {
-
     data.users.findByUsernameOrEmail(username, true)
       .then(function (user) {
         if (!user || !user.passMatches(password)) {
